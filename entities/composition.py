@@ -1,2 +1,4 @@
 class Composition:
-    pass
+    def __init__(self, **kwargs):
+        self.tracks = Track()
+        pass

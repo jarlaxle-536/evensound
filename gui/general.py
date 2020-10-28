@@ -101,3 +101,17 @@ class LabelAdapter(GuiAdapter):
     def set_gui(self):
         self.gui_args = (self.title, )
         super().set_gui()
+
+class ActionAdapter(GuiAdapter):
+    gui_constructor = QtWidgets.QAction
+    text = 'Action'
+    shortcut = 'Enter'
+    tip = 'Action tip'
+    def setup(self):
+        self.setText(self.text)
+        self.setShortcut(self.shortcut)
+        self.setStatusTip(self.tip)
+        self.gui.triggered.connect(self.action)
+        super().setup()
+    def action(self):
+        print(f'Doing action for {self.__class__.__name__}')
