@@ -37,6 +37,10 @@ class GuiAdapter:
     def application(self):
         return QtWidgets.QApplication.instance().adapter
 
+    @property
+    def state(self):
+        return self.application.state
+
 class ApplicationAdapter(GuiAdapter):
     gui_constructor = QtWidgets.QApplication
     gui_args = ([], )
@@ -117,3 +121,9 @@ class ActionAdapter(GuiAdapter):
         super().setup()
     def action(self):
         print(f'Doing action for {self.__class__.__name__}')
+
+class ListWidgetAdapter(GuiAdapter):
+    gui_constructor = QtWidgets.QListWidget
+    def setup(self):
+        for component in self.contents.values():
+            self.addItem(component)
