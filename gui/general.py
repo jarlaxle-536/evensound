@@ -127,6 +127,18 @@ class ListWidgetAdapter(GuiAdapter):
     def setup(self):
         for component in self.contents.values():
             self.addItem(component)
+        super().setup()
+
+class DialogAdapter(GuiAdapter):
+    gui_constructor = QtWidgets.QDialog
+    layout_type = QtWidgets.QHBoxLayout
+    def setup(self):
+        self.layout = self.layout_type()
+        for widget in self.contents.values():
+            self.layout.addWidget(widget.gui)
+        self.setLayout(self.layout)
+        self.show()
+        super().setup()
 
 class GeneralThread(QtCore.QThread):
     waiting = alive = True
@@ -136,7 +148,6 @@ class GeneralThread(QtCore.QThread):
         self.finish = QtCore.pyqtSignal()
     def run(self):
         while self.alive:
-#            print('thread run')
             if not self.waiting:
                 self.adapter.action()
             QtCore.QThread.msleep(1000 * self.period)

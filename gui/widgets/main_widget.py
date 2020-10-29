@@ -1,22 +1,24 @@
 from gui.general import *
+from .control_panel import *
 
 class MainWidget(WidgetAdapter):
     def setup(self):
         self.contents = {cls.__name__: cls.__call__() for cls in [
+            ControlPanel,
             TrackRepr,
-            TrackList,
+#            TracksList,
         ]}
         super().setup()
+#        self.setFixedHeight(300)
 
 class TrackRepr(WidgetAdapter):
     def setup(self):
         self.contents = {cls.__name__: cls.__call__() for cls in [
             Label1,
-            ControlPanel,
         ]}
         super().setup()
 
-class TrackList(ListWidgetAdapter):
+class TracksList(ListWidgetAdapter):
     def setup(self):
         tracks = self.state.composition.tracks
         self.contents = {
@@ -24,32 +26,6 @@ class TrackList(ListWidgetAdapter):
             for track in tracks
         }
         super().setup()
-
-class ControlPanel(WidgetAdapter):
-    layout_type = QtWidgets.QHBoxLayout
-    def setup(self):
-        self.contents = {cls.__name__: cls.__call__() for cls in [
-            PlayOrStopButton,
-        ]}
-        super().setup()
-
-class PlayOrStopButton(ButtonAdapter):
-    title = 'Play'
-    def setup(self):
-        super().setup()
-        self.play_thread = PlayThread()
-    def update(self):
-        self.title = {True: 'Play', False: 'Stop'}.get(
-            self.play_thread.waiting, 'ERROR')
-        self.setText(self.title)
-    def action(self):
-        print('playing or stopping')
-        self.play_thread.toggle_activity()
-        self.update()
-
-class PlayThread(ThreadAdapter):
-    def action(self):
-        print('PLAY THREAD')
 
 class Label1(LabelAdapter):
     def setup(self):

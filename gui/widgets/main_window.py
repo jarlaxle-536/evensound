@@ -10,6 +10,8 @@ class MainWindow(MainWindowAdapter):
         self.file_menu.addAction(NewFileAction().gui)
         self.file_menu.addAction(OpenFileAction().gui)
         self.file_menu.addAction(ExitAction().gui)
+        self.tracks_menu = menubar.addMenu('&Tracks')
+        self.tracks_menu.addAction(AddTrackAction().gui)
         self.about_menu = menubar.addMenu('&About')
         self.about_menu.addAction(InfoAction().gui)
         self.about_menu.addAction(HelpAction().gui)
@@ -34,6 +36,11 @@ class ExitAction(ActionAdapter):
     tip = 'Exit'
     def action(self):
         print('will exit program')
+
+class AddTrackAction(ActionAdapter):
+    text = 'Add'
+    shortcut = 'Ctrl+A'
+    tip = 'Add new track'
 
 class InfoAction(ActionAdapter):
     text = 'Info'
