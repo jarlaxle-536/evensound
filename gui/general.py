@@ -127,3 +127,33 @@ class ListWidgetAdapter(GuiAdapter):
     def setup(self):
         for component in self.contents.values():
             self.addItem(component)
+
+class GeneralThread(QtCore.QThread):
+    waiting = alive = True
+    period = 1
+    def __init__(self, **kwargs):
+        super().__init__()
+        self.finish = QtCore.pyqtSignal()
+    def run(self):
+        while self.alive:
+#            print('thread run')
+            if not self.waiting:
+                self.adapter.action()
+            QtCore.QThread.msleep(1000 * self.period)
+        self.finish.emit()
+    def __del__(self):
+        self.terminate()
+        self.quit()
+    def stop_thread(self):
+        self.alive = False
+    def toggle_activity(self):
+        print(f'Toggling activity for {self.__class__.__name__}')
+        self.waiting = not self.waiting
+
+class ThreadAdapter(GuiAdapter):
+    gui_constructor = GeneralThread
+    def setup(self):
+        super().setup()
+        self.gui.start()
+    def action(self):
+        raise ValueError('Thread action should be defined in subclass.')
