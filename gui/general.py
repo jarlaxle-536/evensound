@@ -97,10 +97,12 @@ class ButtonAdapter(GuiAdapter):
 
 class LabelAdapter(GuiAdapter):
     gui_constructor = QtWidgets.QLabel
-    title = 'Label'
+    text = 'Label'
     def set_gui(self):
-        self.gui_args = (self.title, )
+        self.gui_args = (self.text, )
         super().set_gui()
+    def setup(self):
+        self.setText(self.text)
 
 class ActionAdapter(GuiAdapter):
     gui_constructor = QtWidgets.QAction
