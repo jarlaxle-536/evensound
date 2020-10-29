@@ -1,12 +1,14 @@
 import random
 
+from .general import *
 from .instrument import *
 
-class Track:
+class Track(Entity):
     name = 'Track'
+    fields = [
+        'name',
+    ]
     def __init__(self, **kwargs):
-        self.instrument = Instrument()
         kwargs.setdefault('name', f'track #{random.randint(1, 10000)}')
-        self.__dict__.update(kwargs)
-        if 'instrument_code' in kwargs:
-            self.instrument.__dict__.setdefault('code', kwargs['instrument_code'])
+        super().__init__(**kwargs)
+        self.instrument = Instrument(**kwargs)

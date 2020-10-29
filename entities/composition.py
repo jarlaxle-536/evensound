@@ -1,10 +1,9 @@
+from .general import *
 from .track import *
 from .beat import *
 
-class Composition:
+class Composition(Entity):
     def __init__(self, **kwargs):
-        self.tracks = [
-            Track(),
-            Track(instrument_code=2) 
-        ]
+        super().__init__(**kwargs)
+        self.tracks = [Track(), ]
         self.beats = [Beat(), ]
