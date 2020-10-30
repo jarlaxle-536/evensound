@@ -1,4 +1,5 @@
 from gui.general import *
+from gui.widgets.track_creation_form import *
 
 class ControlPanel(WidgetAdapter):
     layout_type = QtWidgets.QHBoxLayout
@@ -26,17 +27,6 @@ class AddTrackButton(ButtonAdapter):
     def action(self):
         print('will show dialog')
         self.dialog = TrackCreationForm()
-
-class TrackCreationForm(DialogAdapter):
-    title = 'Adding track'
-    def setup(self):
-        self.contents = {cls.__name__: cls.__call__() for cls in [
-            SomeLabel,
-        ]}
-        super().setup()
-
-class SomeLabel(LabelAdapter):
-    text = 'Lorem ipsum'
 
 class PlayOrStopButton(ButtonAdapter):
     thread_dependent_titles = {True: 'Play', False: 'Stop'}

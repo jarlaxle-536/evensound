@@ -6,7 +6,7 @@ class MainWidget(WidgetAdapter):
         self.contents = {cls.__name__: cls.__call__() for cls in [
             ControlPanel,
             TrackRepr,
-#            TracksList,
+            TracksList,
         ]}
         super().setup()
 #        self.setFixedHeight(300)

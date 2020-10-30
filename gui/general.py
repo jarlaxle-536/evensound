@@ -131,14 +131,65 @@ class ListWidgetAdapter(GuiAdapter):
 
 class DialogAdapter(GuiAdapter):
     gui_constructor = QtWidgets.QDialog
-    layout_type = QtWidgets.QHBoxLayout
+    layout_type = QtWidgets.QVBoxLayout
+    window_size = (600, 400)
     def setup(self):
         self.layout = self.layout_type()
         for widget in self.contents.values():
             self.layout.addWidget(widget.gui)
         self.setLayout(self.layout)
+        self.setWindowTitle(self.title)
+        window_centered = tuple(map(
+            lambda t: (t[0] - t[1]) // 2, zip((1400, 800), self.window_size)
+        ))
+        self.setGeometry(*window_centered, *self.window_size)
         self.show()
         super().setup()
+
+class LineEditWithCaption(WidgetAdapter):
+    layout_type = QtWidgets.QHBoxLayout
+    text = 'Line edit text'
+    def setup(self):
+        self.contents = {
+            'Label': LabelAdapter(text=self.text),
+            'LineEdit': LineEditAdapter()
+        }
+        super().setup()
+    @property
+    def entered_text(self):
+        return self.contents['LineEdit'].text()
+
+class LineEditAdapter(GuiAdapter):
+    gui_constructor = QtWidgets.QLineEdit
+
+class ComboBoxWithCaption(WidgetAdapter):
+    layout_type = QtWidgets.QHBoxLayout
+    text = 'Combo box text'
+    options = list()
+    def setup(self):
+        self.contents = {
+            'Label': LabelAdapter(text=self.text),
+            'ComboBox': ComboBoxAdapter(options=self.options)
+        }
+        super().setup()
+    @property
+    def selected(self):
+        return self.contents['ComboBox'].selected
+
+class ComboBoxAdapter(GuiAdapter):
+    gui_constructor = QtWidgets.QComboBox
+    choice_mapping = dict()
+    options = list()
+    selected = None
+    def setup(self):
+        for value, repr in self.options:
+            self.choice_mapping[repr] = value
+            self.addItem(repr)
+        self.activated[str].connect(self.on_selection)
+    def on_selection(self, repr):
+        print(repr)
+        self.selected = self.choice_mapping[repr]
+        print(self.selected)
 
 class GeneralThread(QtCore.QThread):
     waiting = alive = True
