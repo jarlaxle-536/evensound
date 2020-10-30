@@ -180,8 +180,8 @@ class ComboBoxAdapter(GuiAdapter):
     gui_constructor = QtWidgets.QComboBox
     choice_mapping = dict()
     options = list()
-    selected = None
     def setup(self):
+        self.selected = self.options[0][0] if self.options else None
         for value, repr in self.options:
             self.choice_mapping[repr] = value
             self.addItem(repr)

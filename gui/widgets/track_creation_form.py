@@ -23,5 +23,9 @@ class CreateTrackButton(ButtonAdapter):
     title = 'Create track'
     def action(self):
         dialog_adapter = self.parent().adapter
-        print('track name:', dialog_adapter.contents['TrackNameLE'].entered_text)
-        print('track instrument:', dialog_adapter.contents['SelectInstrumentCB'].selected)
+        track_name = dialog_adapter.contents['TrackNameLE'].entered_text
+        track_instrument = dialog_adapter.contents[
+            'SelectInstrumentCB'].selected
+        self.state.composition.add_track(
+            name=track_name, instrument_code=track_instrument)
+        dialog_adapter.close()
