@@ -10,8 +10,6 @@ class Track(Entity):
         super().__init__(**kwargs)
         self.__dict__.setdefault('name', self.default_name)
         self.instrument = Instrument(**kwargs)
-#        for key in Instrument.fields:
-#            self.instrument.__dict__.setdefault(kwargs.get(key, None))
 
     def __str__(self):
         return f'{self.name} [{self.instrument.name_expanded}]'

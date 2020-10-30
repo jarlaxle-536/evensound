@@ -20,7 +20,8 @@ class GuiAdapter:
         pass
 
     def update(self):
-        pass
+        for component in self.getattr('contents', dict()).values():
+            component.setup()
 
     def find_by_class(self, cls_name):
         obj = self
@@ -125,6 +126,7 @@ class ActionAdapter(GuiAdapter):
 class ListWidgetAdapter(GuiAdapter):
     gui_constructor = QtWidgets.QListWidget
     def setup(self):
+        self.clear()
         for component in self.contents.values():
             self.addItem(component)
         super().setup()

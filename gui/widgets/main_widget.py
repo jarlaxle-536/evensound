@@ -3,6 +3,8 @@ from .control_panel import *
 
 class MainWidget(WidgetAdapter):
     def setup(self):
+        'marking it as main widget'
+        self.application.main_widget = self
         self.contents = {cls.__name__: cls.__call__() for cls in [
             ControlPanel,
             TrackRepr,
@@ -22,7 +24,7 @@ class TracksList(ListWidgetAdapter):
     def setup(self):
         tracks = self.state.composition.tracks
         self.contents = {
-            track.name: f'{track.name}: {track.instrument.name_expanded}'
+            track.name: str(track)
             for track in tracks
         }
         super().setup()
