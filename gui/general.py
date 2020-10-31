@@ -5,11 +5,13 @@ class GuiAdapter:
     adapted_name = 'gui'
     gui_args = tuple()
     gui_kwargs = dict()
+    instances = list()
 
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
         self.set_gui()
         self.setup()
+        self.__class__.instances = self.__class__.instances[:] + [self]
 
     def set_gui(self):
         self.gui = self.gui_constructor(*self.gui_args, **self.gui_kwargs)
@@ -20,8 +22,7 @@ class GuiAdapter:
         pass
 
     def update(self):
-        for component in self.getattr('contents', dict()).values():
-            component.setup()
+        pass
 
     def find_by_class(self, cls_name):
         obj = self

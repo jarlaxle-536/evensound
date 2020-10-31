@@ -4,11 +4,12 @@ import os
 from config import *
 
 def parser1():
+    """includes instrument timbres"""
     instruments_dict = dict()
     splitted = text.split('\n\n')
     for piece in splitted:
         first, *other = piece.strip().split('\n')
-        title = first.strip().replace(':', '')
+        title = first.strip().replace(':', '').replace(' Timbres', '')
         crr_dict = instruments_dict[title] = dict()
         for tabbed in other:
             code, name = tabbed.strip().split('\t')
@@ -16,6 +17,7 @@ def parser1():
     return instruments_dict
 
 def parser2():
+    """flattened version"""
     instruments_dict = dict()
     splitted = text.split('\n\n')
     for piece in splitted:
@@ -32,7 +34,7 @@ json_filepath = os.path.join(DATA_DIR, 'midi_codes.json')
 with open(txt_filepath) as file:
     text = file.read().replace('\"', '')
 
-result = parser2()
+result = parser1()
 
 if os.path.exists(json_filepath):
     os.remove(json_filepath)

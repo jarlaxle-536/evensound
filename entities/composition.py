@@ -2,8 +2,12 @@ from .general import *
 from .track import *
 from .beat import *
 
+from gui.updaters import *
+
 class Composition(Entity):
-    tracks = list()
+
+    tracks = TrackListUpdater(source=list())
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.add_track()

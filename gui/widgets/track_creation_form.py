@@ -29,4 +29,4 @@ class CreateTrackButton(ButtonAdapter):
         self.state.composition.add_track(
             name=track_name, instrument_code=track_instrument)
         dialog_adapter.close()
-        self.application.main_widget.contents['TracksList'].setup()
+#        self.application.main_widget.contents['TracksList'].setup()
