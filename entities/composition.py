@@ -2,7 +2,7 @@ from .general import *
 from .track import *
 from .beat import *
 
-from gui.updaters import *
+from gui.updaters import TrackListUpdater
 
 class Composition(Entity):
 

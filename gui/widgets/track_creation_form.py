@@ -7,17 +7,22 @@ class TrackCreationForm(DialogAdapter):
     def setup(self):
         self.contents = {cls.__name__: cls.__call__() for cls in [
             TrackNameLE,
+            SelectInstrumentTimbreCB,
             SelectInstrumentCB,
             CreateTrackButton,
         ]}
         super().setup()
 
 class TrackNameLE(LineEditWithCaption):
-    text = 'Track name:'
+    text = 'Track name'
+
+class SelectInstrumentTimbreCB(ComboBoxWithCaption):
+    text = 'Instrument type'
+    options = Instrument.instrument_timbre_choices
 
 class SelectInstrumentCB(ComboBoxWithCaption):
-    text = 'Instrument:'
-    options = Instrument.choices
+    text = 'Instrument'
+    options = Instrument.instrument_code_choices
 
 class CreateTrackButton(ButtonAdapter):
     title = 'Create track'
