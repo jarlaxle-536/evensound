@@ -7,15 +7,13 @@ class GuiMixin(Root):
     @classmethod
     def gui_element(cls, inst):
         return getattr(inst, cls.adapted_name)
-    def update(self):
-        pass
     @property
     def application(self):
         return QtWidgets.QApplication.instance().adapter
 
 class QApplicationMixin(GuiMixin):
-    constructor = QtWidgets.QApplication
-    constructor_args = (list(), )
+    def setup(self, **kwargs):
+        self.gui = QtWidgets.QApplication([])
 
 class QMainWindowMixin(GuiMixin):
     constructor = QtWidgets.QMainWindow

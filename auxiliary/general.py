@@ -9,28 +9,31 @@ class Meta(type):
             clsdict[target] = Updater(target=target, source=source)
         return clsdict
 
-class Root(metaclass=Meta):
-    """Main class to adapt composed elements"""
-    adapted_name = 'adapted'
-    constructor = lambda *args, **kwargs: None
-    constructor_args = tuple()
-    constructor_kwargs = dict()
+class Basic(metaclass=Meta):
     def __init__(self, **kwargs):
-        for cls in self.__class__.__bases__:
-            cls.adapt(self)
-        self.setup()
-    @classmethod
-    def adapt(cls, inst):
-        setattr(inst, cls.adapted_name, cls.create_object())
-    @classmethod
-    def create_object(cls):
-        return cls.constructor(*cls.constructor_args, **cls.constructor_kwargs)
-    def setup(self):
         pass
-    def update(self):
+    def setup(self, **kwargs):
         pass
-    def __getattr__(self, attr_name):
-        return getattr(self, attr_name)
+
+class Root(Basic):
+    """Main class to adapt composed elements"""
+    field_dependencies = list()
+    def __init__(self, cls=None, **kwargs):
+        cls = cls if not cls is None else self.__class__
+        cls.setup(self, **kwargs)
+        next_class = self._next_class()
+        if not next_class is object:
+            self.__init__(cls=next_class, **kwargs)
+    def setup(self, **kwargs):
+        pass
+    @property
+    def mro_list(self):
+        if not hasattr(self, '_mro_list'):
+            self._mro_list = iter(self.__class__.mro()[1:])
+        return self._mro_list
+    def _next_class(self):
+#        print(list(self.mro_list))
+        return next(self.mro_list)
 
 class Updater:
     """Get-set descriptor for updating elements"""
