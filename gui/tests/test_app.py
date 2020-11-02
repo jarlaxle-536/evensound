@@ -1,8 +1,10 @@
-from gui import *
+import unittest
 
-def _test():
-    app = Application()
-    for key in ['gui', 'state']:
-        assert hasattr(app, key)
+from gui.general import *
 
-_test()
+class TestApplication(unittest.TestCase):
+    def setUp(self):
+        self.app = Application()
+    def test_keys(self):
+        for key in ['gui', 'state']:
+            self.assertTrue(hasattr(self.app, key))

@@ -1,2 +1,2 @@
 source venv/bin/activate
-./test.py
+python -m unittest
