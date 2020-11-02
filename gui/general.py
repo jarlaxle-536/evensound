@@ -1,14 +1,8 @@
-from PyQt5 import QtWidgets
+from entities.mixins import *
+from gui.mixins import *
 
-from auxiliary import *
-from entities import *
+class Application(QApplicationMixin, StateMixin):
+    pass
 
-class QApplicationAdapter(GuiAdapterMixin):
-    constructor = QtWidgets.QApplication
-    constructor_args = (list(), )
-
-class StateAdapter(StatefulMixin):
-    constructor = State
-
-class Application(QApplicationAdapter, StateAdapter):
+class MainWindow(QMainWindowMixin):
     pass

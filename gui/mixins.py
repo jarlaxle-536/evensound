@@ -1,6 +1,17 @@
 from PyQt5 import QtWidgets
 
-from auxiliary.mixins import *
+from auxiliary import *
+
+class GuiMixin(Root):
+    adapted_name = 'gui'
+    @classmethod
+    def gui_element(cls, inst):
+        return getattr(inst, cls.adapted_name)
+    def update(self):
+        pass
+    @property
+    def application(self):
+        return QtWidgets.QApplication.instance().adapter
 
 class QApplicationMixin(GuiMixin):
     constructor = QtWidgets.QApplication
@@ -19,11 +30,27 @@ class QMainWindowMixin(GuiMixin):
         super().setup()
 
 class QWidgetMixin(GuiMixin):
+    constructor = QtWidgets.QWidget
     layout_type = QtWidgets.QVBoxLayout
     def setup(self):
         layout = self.layout_type()
         for component in self.contents.values():
-#            layout.addWidget(component.gui)
             print(f'will add {component}')
         self.setLayout(layout)
         super().setup()
+
+class QLabelMixin(GuiMixin):
+    constructor = QtWidgets.QLabel
+    text = 'Label'
+    def setup(self):
+        self.setText(self.text)
+        super().setup()
+
+class QButtonMixin(GuiMixin):
+    constructor = QtWidgets.QPushButton
+    text = 'Button'
+    def setup(self):
+#        self.gui.clicked.connect(self.action)
+        super().setup()
+    def action(self):
+        print(f'Doing action for {self.__class__.__name__}')
