@@ -1,4 +1,4 @@
-from .general import *
+from .entity import *
 
 class Beat(Entity):
     fields = [

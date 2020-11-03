@@ -1,8 +1,8 @@
 import unittest
 
-from gui.mixins import *
+from logic.general import *
 
-class TestApplication():
+class TestApplication(unittest.TestCase):
     def setUp(self):
         self.app = Application()
     def test_keys(self):

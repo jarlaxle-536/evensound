@@ -1,5 +1,7 @@
-class Entity:
-    fields = list()
+from auxiliary import *
+from .state import *
+
+class StateMixin(Root):
     def __init__(self, **kwargs):
-        for k, v in kwargs.items():
-            setattr(self, k, v)
+        self.state = State()
+        super().__init__(**kwargs)

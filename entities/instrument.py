@@ -1,6 +1,6 @@
 from config import *
 from data_loader import *
-from .general import *
+from .entity import *
 
 class Instrument(Entity):
     fields = [
