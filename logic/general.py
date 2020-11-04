@@ -1,27 +1,17 @@
 from entities import *
 from gui import *
 
-from logic.menubar_actions import *
+from logic.menubar import *
 
 class Application(QApplicationMixin, StateMixin):
     pass
 
 class MainWindow(QMainWindowMixin):
     title = 'EVENSOUND'
-    menubar_dict = {
-        'File': [
-            NewFileAction,
-            OpenFileAction,
-            SaveFileAsAction,
-            ExitAction
-        ],
-        'Track': [
-
-        ],
-        'About': [
-
-        ]
-    }
+    menus = [
+        FileMenu,
+        TrackMenu,
+    ]
 
 class MainWidget(QWidgetMixin):
     pass

@@ -9,16 +9,14 @@ class Meta(type):
             clsdict[target] = Updater(target=target, source=source)
         return clsdict
 
-class Basic(metaclass=Meta):
-    def __init__(self, **kwargs):
-        pass
-
-class Root(Basic):
+class Root(metaclass=Meta):
     """Main class to adapt composed elements"""
+    fields = list()
     field_dependencies = list()
     def __init__(self, **kwargs):
+        for k in self.fields:
+            setattr(self, k, kwargs.get(k, None))
         self.setup()
-        super().__init__(**kwargs)
     def __getattr__(self, attr_name):
         """Sufficient for single-level adaptation"""
         for k, v in self.__dict__.items():
