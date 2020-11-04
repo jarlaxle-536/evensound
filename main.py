@@ -2,12 +2,10 @@
 
 import sys
 
-from auxiliary import *
-from gui import *
+from logic import *
 
 app = Application()
 main_window = MainWindow()
-main_widget = MainWidget()
-main_window.central_widget = main_widget
-main_window.setCentralWidget(main_window.central_widget.gui)
+main_window.central_widget = MainWidget().gui
+main_window.setCentralWidget(main_window.central_widget)
 sys.exit(app.exec_())
