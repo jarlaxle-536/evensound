@@ -28,6 +28,3 @@ class MainWidget(QWidgetMixin):
     contents = {
         'widget1': Widget1
     }
-
-class OpenFileDialog(QFileDialogMixin):
-    pass

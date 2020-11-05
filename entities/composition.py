@@ -1,13 +1,18 @@
+from auxiliary import *
+
 from .general import *
 from .track import *
 from .beat import *
 
-class Composition(Entity):
+class Composition(Root):
 
+    fields = [
+        'title',
+    ]
+    title = 'Composition'
     tracks = list()
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+    def setup(self):
         self.add_track()
         self.beats = [Beat(), ]
 

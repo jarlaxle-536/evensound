@@ -1,15 +1,14 @@
-from .entity import *
+from auxiliary import *
 
-class Beat(Entity):
+class Beat(Root):
     fields = [
         'tempo',
     ]
     tempo = 120
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.time_signature = TimeSignature(**kwargs)
+    def setup(self):
+        self.time_signature = TimeSignature()
 
-class TimeSignature:
+class TimeSignature(Root):
     fields = [
         'ts_numerator',
         'ts_denominator'

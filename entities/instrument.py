@@ -1,11 +1,11 @@
-from config import *
+from auxiliary import *
 from data_loader import *
-from .entity import *
+from config import *
 
-class Instrument(Entity):
+class Instrument(Root):
     fields = [
-        'instrument_timbre',
-        'instrument_code',
+        'type',
+        'code',
     ]
     instrument_timbre_choices = list(zip(*
         (lambda l: [list(range(1, len(l) + 1)), l])
@@ -14,8 +14,7 @@ class Instrument(Entity):
     instrument_timbre = instrument_timbre_choices[0][0]
     instrument_code_choices = [(int(k), v) for k, v in MIDI_CODES_FLATTENED.items()]
     instrument_code = instrument_code_choices[0][0]
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+    def setup(self):
         print(self.instrument_timbre_choices)
     @property
     def name_expanded(self):

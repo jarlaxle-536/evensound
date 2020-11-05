@@ -1,11 +1,11 @@
 from .general import *
 from .instrument import *
 
-class Track(Entity):
-    name = 'Track'
+class Track(Root):
     fields = [
         'name',
     ]
+    name = 'Track'
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.__dict__.setdefault('name', self.default_name)

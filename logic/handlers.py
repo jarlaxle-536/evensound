@@ -1,6 +1,6 @@
 import sys
 
-from config import *
+from .dialogs import *
 from gui import *
 
 def new_file_handler():
@@ -8,11 +8,11 @@ def new_file_handler():
 
 def open_file_handler():
     main_widget = GuiMixin.get_application().find_by_classname('MainWidget')
-    QFileDialogMixin(widget=main_widget)
+    OpenFileDialog(widget=main_widget)
 
 def save_file_handler():
     main_widget = GuiMixin.get_application().find_by_classname('MainWidget')
-    QFileDialogMixin(widget=main_widget)
+    SaveFileDialog(widget=main_widget)
     print('will accept new file name')
     print('will save file under entered file name')
 

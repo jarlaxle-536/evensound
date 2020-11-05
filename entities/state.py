@@ -2,8 +2,8 @@ import shelve
 
 from .composition import *
 
-class State:
-    def __init__(self, **kwargs):
+class State(Root):
+    def setup(self, **kwargs):
         self.composition = Composition()
     def save(self, filepath):
         with shelve.open(filepath, 'n', writeback=True) as file:

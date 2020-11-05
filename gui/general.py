@@ -1,6 +1,7 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
 
 from auxiliary import *
+from config import *
 
 class GuiMixin(Root):
     constructor = lambda *args, **kwargs: None
@@ -27,9 +28,9 @@ class QApplicationMixin(GuiMixin):
 class QMainWindowMixin(GuiMixin):
     constructor = QtWidgets.QMainWindow
     title = 'Main window'
-    window_size = (1400, 800)
+    window_size = MAX_WINDOW_SIZE
     window_centered = tuple(map(
-        lambda t: (t[0] - t[1]) // 2, zip((1400, 800), window_size)
+        lambda t: (t[0] - t[1]) // 2, zip(MAX_WINDOW_SIZE, window_size)
     ))
     menus = list()
     def setup(self):
@@ -87,9 +88,16 @@ class QLabelMixin(GuiMixin):
 
 class QFileDialogMixin(GuiMixin):
     constructor = QtWidgets.QFileDialog
+    title = 'File dialog'
+    window_size = (320, 240)
+    window_centered = tuple(map(
+        lambda t: (t[0] - t[1]) // 2, zip(MAX_WINDOW_SIZE, window_size)
+    ))
     fields = ['widget']
     def setup(self):
+        self.setGeometry(*self.window_centered, *self.window_size)
         options = self.Options()
         options |= self.DontUseNativeDialog
         options |= self.DontUseCustomDirectoryIcons
-        fname = self.getOpenFileName(self.widget.gui, 'Open file', '/home')[0]
+        fname = self.getOpenFileName(
+            self.widget.gui, self.title, FILES_DIR, options=options)[0]
