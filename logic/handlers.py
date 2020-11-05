@@ -7,14 +7,16 @@ def new_file_handler():
     print('will create new file')
 
 def open_file_handler():
-    main_widget = GuiMixin.get_application().find_by_classname('MainWidget')
-    OpenFileDialog(widget=main_widget)
+    app = GuiMixin.get_application()
+    main_widget = app.find_by_classname('MainWidget')
+    dialog = OpenCmpDialog(widget=main_widget)
+    app.load(dialog.filepath)
 
 def save_file_handler():
-    main_widget = GuiMixin.get_application().find_by_classname('MainWidget')
-    SaveFileDialog(widget=main_widget)
-    print('will accept new file name')
-    print('will save file under entered file name')
+    app = GuiMixin.get_application()
+    main_widget = app.find_by_classname('MainWidget')
+    dialog = SaveCmpDialog(widget=main_widget)
+    app.save(dialog.filepath)
 
 def exit_application_handler():
     print('exiting...')

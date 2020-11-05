@@ -86,7 +86,7 @@ class QLabelMixin(GuiMixin):
     def setup(self):
         self.setText(self.text)
 
-class QFileDialogMixin(GuiMixin):
+class FileDialogMixin(GuiMixin):
     constructor = QtWidgets.QFileDialog
     title = 'File dialog'
     window_size = (320, 240)
@@ -96,8 +96,27 @@ class QFileDialogMixin(GuiMixin):
     fields = ['widget']
     def setup(self):
         self.setGeometry(*self.window_centered, *self.window_size)
-        options = self.Options()
-        options |= self.DontUseNativeDialog
-        options |= self.DontUseCustomDirectoryIcons
-        fname = self.getOpenFileName(
-            self.widget.gui, self.title, FILES_DIR, options=options)[0]
+        self.options = self.Options()
+        self.options |= self.DontUseNativeDialog
+        self.options |= self.DontUseCustomDirectoryIcons
+        self.get_filepath()
+    def get_filepath(self):
+        raise TypeError('Should be specified in subclass')
+
+class CompositionDialogMIxin(FileDialogMixin):
+    ext = 'cmp'
+    name_filters = ['Composition (*.cmp)', ]
+    def setup(self):
+        super().setup()
+        self.setNameFilters(self.name_filters)
+        self.setDefaultSuffix(self.ext)
+
+class OpenCompositionDialogMixin(CompositionDialogMIxin):
+    def get_filepath(self):
+        self.filepath = self.getOpenFileName(
+            self.widget.gui, self.title, FILES_DIR, options=self.options)[0]
+
+class SaveCompositionDialogMixin(CompositionDialogMIxin):
+    def get_filepath(self):
+        self.filepath = self.getSaveFileName(
+            self.widget.gui, self.title, FILES_DIR, options=self.options)[0]

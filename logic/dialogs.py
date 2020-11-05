@@ -1,7 +1,7 @@
 from gui import *
 
-class OpenFileDialog(QFileDialogMixin):
+class OpenCmpDialog(OpenCompositionDialogMixin):
     title = 'Open file'
 
-class SaveFileDialog(QFileDialogMixin):
+class SaveCmpDialog(SaveCompositionDialogMixin):
     title = 'Save file'
