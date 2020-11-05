@@ -1,0 +1,7 @@
+-e git+git@github.com:jarlaxle-536/evensound.git@da3565dd1bdf9d76c415da67baea3a056628b6ec#egg=evensound
+mido==1.2.9
+pkg-resources==0.0.0
+ruamel.yaml==0.16.12
+ruamel.yaml.clib==0.2.2
+vext==0.7.4
+vext.pyqt5==0.7.4
