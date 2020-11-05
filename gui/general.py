@@ -63,9 +63,9 @@ class QActionMixin(GuiMixin):
         self.setText(self.text)
         if not self.shortcut is None:
             self.setShortcut(self.shortcut)
-        self.menu.addAction(self.text)
-    def connect(self, func):
-        self.gui.triggered.connect(func)
+        self.qmenu = self.menu.addAction(self.text)
+    def connect_to_func(self, func):
+        self.qmenu.triggered.connect(func)
 
 class QWidgetMixin(GuiMixin):
     constructor = QtWidgets.QWidget
@@ -76,5 +76,20 @@ class QWidgetMixin(GuiMixin):
         for k, v in self.contents.items():
             obj = v.__call__()
             setattr(self, k, obj)
-            self.layout.addWidget(obj)
+            self.layout.addWidget(obj.gui)
         self.setLayout(self.layout)
+
+class QLabelMixin(GuiMixin):
+    constructor = QtWidgets.QLabel
+    text = 'Label'
+    def setup(self):
+        self.setText(self.text)
+
+class QFileDialogMixin(GuiMixin):
+    constructor = QtWidgets.QFileDialog
+    fields = ['widget']
+    def setup(self):
+        options = self.Options()
+        options |= self.DontUseNativeDialog
+        options |= self.DontUseCustomDirectoryIcons
+        fname = self.getOpenFileName(self.widget.gui, 'Open file', '/home')[0]

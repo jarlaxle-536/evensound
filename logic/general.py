@@ -11,7 +11,23 @@ class MainWindow(QMainWindowMixin):
     menus = [
         FileMenu,
         TrackMenu,
+        SettingsMenu
     ]
 
+class SomeLabel(QLabelMixin):
+    text = 'lorem ipsum'
+
+class Widget1(QWidgetMixin):
+    contents = {
+        'label1': SomeLabel,
+        'label2': SomeLabel,
+        'label3': SomeLabel,
+    }
+
 class MainWidget(QWidgetMixin):
+    contents = {
+        'widget1': Widget1
+    }
+
+class OpenFileDialog(QFileDialogMixin):
     pass
