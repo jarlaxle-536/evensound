@@ -1,15 +1,12 @@
 from auxiliary import *
 
+from .persistent import *
 from .general import *
 from .track import *
 from .beat import *
 
-class Composition(Root):
+class Composition(Persistent):
 
-    fields = [
-        'title',
-    ]
-    title = 'Composition'
     tracks = list()
 
     def setup(self):

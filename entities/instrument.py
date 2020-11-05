@@ -15,7 +15,7 @@ class Instrument(Root):
     instrument_code_choices = [(int(k), v) for k, v in MIDI_CODES_FLATTENED.items()]
     instrument_code = instrument_code_choices[0][0]
     def setup(self):
-        print(self.instrument_timbre_choices)
+        pass
     @property
     def name_expanded(self):
         return MIDI_CODES_FLATTENED.get(str(self.instrument_code), None)
