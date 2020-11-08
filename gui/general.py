@@ -29,11 +29,11 @@ class QMainWindowMixin(GuiMixin):
     constructor = QtWidgets.QMainWindow
     title = 'Main window'
     window_size = MAX_WINDOW_SIZE
-    window_centered = tuple(map(
-        lambda t: (t[0] - t[1]) // 2, zip(MAX_WINDOW_SIZE, window_size)
-    ))
     menus = list()
     def setup(self):
+        self.window_centered = tuple(map(
+            lambda t: (t[0] - t[1]) // 2, zip(MAX_WINDOW_SIZE, self.window_size)
+        ))
         self.setGeometry(*self.window_centered, *self.window_size)
         self.setWindowTitle(self.title)
         self.create_menubar()
@@ -70,8 +70,8 @@ class QActionMixin(GuiMixin):
 
 class QWidgetMixin(GuiMixin):
     constructor = QtWidgets.QWidget
-    contents = dict()
     layout_type = QtWidgets.QVBoxLayout
+    contents = dict()
     def setup(self):
         self.layout = self.layout_type.__call__()
         for k, v in self.contents.items():
@@ -83,6 +83,12 @@ class QWidgetMixin(GuiMixin):
 class QLabelMixin(GuiMixin):
     constructor = QtWidgets.QLabel
     text = 'Label'
+    def setup(self):
+        self.setText(self.text)
+
+class QPushButtonMixin(GuiMixin):
+    constructor = QtWidgets.QPushButton
+    text = 'Button'
     def setup(self):
         self.setText(self.text)
 
@@ -102,21 +108,3 @@ class FileDialogMixin(GuiMixin):
         self.get_filepath()
     def get_filepath(self):
         raise TypeError('Should be specified in subclass')
-
-class CompositionDialogMIxin(FileDialogMixin):
-    ext = 'cmp'
-    name_filters = ['Composition (*.cmp)', ]
-    def setup(self):
-        super().setup()
-        self.setNameFilters(self.name_filters)
-        self.setDefaultSuffix(self.ext)
-
-class OpenCompositionDialogMixin(CompositionDialogMIxin):
-    def get_filepath(self):
-        self.filepath = self.getOpenFileName(
-            self.widget.gui, self.title, FILES_DIR, options=self.options)[0]
-
-class SaveCompositionDialogMixin(CompositionDialogMIxin):
-    def get_filepath(self):
-        self.filepath = self.getSaveFileName(
-            self.widget.gui, self.title, FILES_DIR, options=self.options)[0]
