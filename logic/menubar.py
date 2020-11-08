@@ -5,7 +5,7 @@ class NewFileAction(QActionMixin):
     text = 'New file'
     def setup(self):
         super().setup()
-        self.connect_to_func(new_file_handler)
+        self.connect_to_func(new_composition_handler)
 
 class OpenFileAction(QActionMixin):
     text = 'Open file'
@@ -36,12 +36,21 @@ class FileMenu(QMenuMixin):
 
 class AddTrackAction(QActionMixin):
     text = 'Add'
+    def setup(self):
+        super().setup()
+        self.connect_to_func(add_track_handler)
 
 class DeleteTrackAction(QActionMixin):
     text = 'Delete'
+    def setup(self):
+        super().setup()
+        self.connect_to_func(delete_track_handler)
 
 class TrackPropertiesAction(QActionMixin):
     text = 'Properties'
+    def setup(self):
+        super().setup()
+        self.connect_to_func(track_properties_handler)
 
 class TrackMenu(QMenuMixin):
     title = 'Track'

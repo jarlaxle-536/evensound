@@ -4,8 +4,8 @@ import os
 from .dialogs import *
 from gui import *
 
-def new_file_handler():
-    print('will create new file')
+def new_composition_handler():
+    dialog = NewCompositionDialog()
 
 def open_file_handler():
     app = GuiMixin.get_application()
@@ -23,3 +23,12 @@ def save_file_handler():
 def exit_application_handler():
     print('exiting...')
     GuiMixin.get_application().exit()
+
+def add_track_handler():
+    dialog = AddTrackDialog()
+
+def delete_track_handler():
+    print('will delete current track')
+
+def track_properties_handler():
+    print('will open track properties dialog')

@@ -1,6 +1,6 @@
 from gui import *
 
-class CompositionDialogMixin(FileDialogMixin):
+class CompositionFileDialogMixin(FileDialogMixin):
     ext = 'cmp'
     name_filters = ['Composition (*.cmp)', ]
     def setup(self):
@@ -8,12 +8,12 @@ class CompositionDialogMixin(FileDialogMixin):
         self.setNameFilters(self.name_filters)
         self.setDefaultSuffix(self.ext)
 
-class OpenCompositionDialogMixin(CompositionDialogMixin):
+class OpenCompositionDialogMixin(CompositionFileDialogMixin):
     def get_filepath(self):
         self.filepath = self.getOpenFileName(
             self.widget.gui, self.title, FILES_DIR, options=self.options)[0]
 
-class SaveCompositionDialogMixin(CompositionDialogMixin):
+class SaveCompositionDialogMixin(CompositionFileDialogMixin):
     def get_filepath(self):
         self.filepath = self.getSaveFileName(
             self.widget.gui, self.title, FILES_DIR, options=self.options)[0]
@@ -23,3 +23,9 @@ class OpenCmpDialog(OpenCompositionDialogMixin):
 
 class SaveCmpDialog(SaveCompositionDialogMixin):
     title = 'Save file'
+
+class NewCompositionDialog(QDialogMixin):
+    title = 'New composition'
+
+class AddTrackDialog(QDialogMixin):
+    title = 'Add track'

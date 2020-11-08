@@ -80,6 +80,13 @@ class QWidgetMixin(GuiMixin):
             self.layout.addWidget(obj.gui)
         self.setLayout(self.layout)
 
+class QListWidgetMixin(GuiMixin):
+    constructor = QtWidgets.QListWidget
+    contents = dict()
+    def setup(self):
+        for k, v in self.contents.items():
+            self.addItem(k)
+
 class QLabelMixin(GuiMixin):
     constructor = QtWidgets.QLabel
     text = 'Label'
@@ -92,15 +99,27 @@ class QPushButtonMixin(GuiMixin):
     def setup(self):
         self.setText(self.text)
 
+class QDialogMixin(GuiMixin):
+    constructor = QtWidgets.QDialog
+    title = 'Dialog'
+    window_size = (600, 300)
+    def setup(self):
+        self.setWindowTitle(self.title)
+        self.window_centered = tuple(map(
+            lambda t: (t[0] - t[1]) // 2, zip(MAX_WINDOW_SIZE, self.window_size)
+        ))
+        self.setGeometry(*self.window_centered, *self.window_size)
+        self.show()
+
 class FileDialogMixin(GuiMixin):
     constructor = QtWidgets.QFileDialog
     title = 'File dialog'
     window_size = (320, 240)
-    window_centered = tuple(map(
-        lambda t: (t[0] - t[1]) // 2, zip(MAX_WINDOW_SIZE, window_size)
-    ))
     fields = ['widget']
     def setup(self):
+        self.window_centered = tuple(map(
+            lambda t: (t[0] - t[1]) // 2, zip(MAX_WINDOW_SIZE, self.window_size)
+        ))
         self.setGeometry(*self.window_centered, *self.window_size)
         self.options = self.Options()
         self.options |= self.DontUseNativeDialog
