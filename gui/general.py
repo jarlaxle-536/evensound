@@ -86,6 +86,12 @@ class InputMixin(GuiMixin):
 
 class QLineEditMixin(InputMixin):
     constructor = QtWidgets.QLineEdit
+    entered_text = ''
+    def setup(self):
+        super().setup()
+        self.setText(self.entered_text)
+    def get_value(self):
+        return self.entered_text
 
 class QComboBoxMixin(InputMixin):
     constructor = QtWidgets.QComboBox

@@ -1,6 +1,7 @@
 import faker
 import sys
 
+from entities import *
 from .general import *
 
 class CompositionTitleRow(FormRowMixin):
@@ -13,8 +14,10 @@ class RandomizeCompositionTitleButton(QPushButtonMixin):
         self.faker = faker.Faker()
         self.connect_to_func(self.action)
     def action(self):
-        title = self.faker.sentence()
-        print(title)
+        title = self.faker.sentence().replace('.', '')
+        title_input = self.find_by_classname('CompositionTitleRow').Input
+        title_input.entered_text = title
+        title_input.setup()
 
 class NewCompositionCancelButton(QPushButtonMixin):
     text = 'Cancel'
@@ -22,7 +25,8 @@ class NewCompositionCancelButton(QPushButtonMixin):
         super().setup()
         self.connect_to_func(self.action)
     def action(self):
-        print('new cmp cancel')
+        dialog = self.find_by_classname('NewCompositionDialog')
+        dialog.close()
 
 class NewCompositionOKButton(QPushButtonMixin):
     text = 'OK'
@@ -32,6 +36,11 @@ class NewCompositionOKButton(QPushButtonMixin):
     def action(self):
         data = self.find_by_classname('NewCompositionWidget').acquire()
         print(data)
+        'do smth with acquired data'
+        composition = Composition(**data)
+        self.application.state.set_composition(composition)
+        dialog = self.find_by_classname('NewCompositionDialog')
+        dialog.close()
 
 class NewCompositionControlPanel(QWidgetMixin):
     layout_type = QtWidgets.QHBoxLayout

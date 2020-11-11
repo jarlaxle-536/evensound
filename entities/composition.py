@@ -7,7 +7,7 @@ from .beat import *
 
 class Composition(Persistent):
 
-    title = None
+    title = 'Composition'
     tracks = list()
 
     def setup(self):
