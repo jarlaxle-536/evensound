@@ -10,7 +10,7 @@ def new_composition_handler():
 def open_file_handler():
     app = GuiMixin.get_application()
     main_widget = app.find_by_classname('MainWidget')
-    dialog = OpenCmpDialog(widget=main_widget)
+    dialog = OpenCompositionDialogMixin(widget=main_widget)
     if os.path.exists(dialog.filepath):
         app.load(dialog.filepath)
 

@@ -80,6 +80,40 @@ class QWidgetMixin(GuiMixin):
             self.layout.addWidget(obj.gui)
         self.setLayout(self.layout)
 
+class InputMixin(GuiMixin):
+    def get_value(self):
+        return None
+
+class QLineEditMixin(InputMixin):
+    constructor = QtWidgets.QLineEdit
+
+class QComboBoxMixin(InputMixin):
+    constructor = QtWidgets.QComboBox
+
+class FormRowMixin(QWidgetMixin):
+    layout_type = QtWidgets.QHBoxLayout
+    name = 'name'
+    input_type = QLineEditMixin
+    def setup(self):
+        self.text = f'{self.name.capitalize()}:'
+        self.contents = {
+            'Label':
+                lambda: QLabelMixin(text=self.text),
+            'Input':
+                lambda: self.input_type.__call__(),
+        }
+        super().setup()
+    def acquire(self):
+        return (self.name, self.get_value())
+
+class FormDataMixin(Root):
+    form_fields = list()
+    def acquire(self):
+        rows = [cls.instances[-1] for t, cls in self.contents.items()
+            if t in self.form_fields]
+        data = dict([row.acquire() for row in rows])
+        return data
+
 class QListWidgetMixin(GuiMixin):
     constructor = QtWidgets.QListWidget
     contents = dict()
@@ -90,6 +124,7 @@ class QListWidgetMixin(GuiMixin):
 class QLabelMixin(GuiMixin):
     constructor = QtWidgets.QLabel
     text = 'Label'
+    fields = ['text']
     def setup(self):
         self.setText(self.text)
 
@@ -98,11 +133,15 @@ class QPushButtonMixin(GuiMixin):
     text = 'Button'
     def setup(self):
         self.setText(self.text)
+    def connect_to_func(self, action):
+        self.clicked.connect(action)
 
 class QDialogMixin(GuiMixin):
     constructor = QtWidgets.QDialog
     title = 'Dialog'
     window_size = (600, 300)
+    layout_type = QtWidgets.QVBoxLayout
+    central_widget = QWidgetMixin
     def setup(self):
         self.setWindowTitle(self.title)
         self.window_centered = tuple(map(
@@ -110,6 +149,9 @@ class QDialogMixin(GuiMixin):
         ))
         self.setGeometry(*self.window_centered, *self.window_size)
         self.show()
+        self.layout = QtWidgets.QVBoxLayout()
+        self.layout.addWidget(self.central_widget.__call__().gui)
+        self.setLayout(self.layout)
 
 class FileDialogMixin(GuiMixin):
     constructor = QtWidgets.QFileDialog
