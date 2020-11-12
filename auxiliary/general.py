@@ -33,15 +33,17 @@ class Root(metaclass=Meta):
 
 class Singleton(Root):
     instance = None
-    objects = dict()
     def __new__(cls, *args, **kwargs):
         if getattr(cls, 'instance') is None:
             cls.instance = object.__new__(cls)
         return cls.instance
-    def find(self, cls_name):
-        defined = dict(inspect.getmembers(sys.modules['__main__']))
-        self.objects[cls_name] = defined.get(cls_name, None).instance
-        return self.objects[cls_name]
+    @staticmethod
+    def find(cls_name, modules=['__main__']):
+        """Singletons that are assumed to be found should be declared in globals"""
+        defined = dict()
+        for module_name in modules:
+            defined.update(dict(inspect.getmembers(sys.modules[module_name])))
+        return defined.get(cls_name, None).instance
 
 class Entity(Root):
     instances = dict()
@@ -50,3 +52,8 @@ class Entity(Root):
         if cls.instances.get(obj_id) is None:
             cls.instances[obj_id] = object.__new__(cls)
         return cls.instances[obj_id]
+    def find(cls_name, obj_id, modules=['__main__']):
+        defined = dict()
+        for module_name in modules:
+            defined.update(dict(inspect.getmembers(sys.modules[module_name])))
+        return defined.get(cls_name, None).instances.get(obj_id)
