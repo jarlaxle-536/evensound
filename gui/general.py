@@ -94,15 +94,21 @@ class QComboBoxMixin(GuiMixin):
     options = list()
     def setup(self):
         super().setup()
-        for number, string in self.options:
-            self.addItem(string)
+        self.clear()
+        for opt in self.options:
+            self.addItem(opt)
+        self.currentIndexChanged.connect(self.on_change)
+    def get_value(self):
+        return self.options[self.currentIndex()]
+    def on_change(self, new_index):
+        print(f'{self.__class__.__name__} on change: {new_index}')
 
 class FormRowMixin(QWidgetMixin):
     layout_type = QtWidgets.QHBoxLayout
     name = 'name'
     input_type = QLineEditMixin
     def setup(self):
-        self.text = f'{self.name.capitalize()}:'
+        self.text = f'{entity_field_hr(self.name)}:'
         self.contents = {
             'Label':
                 lambda: QLabelMixin(text=self.text),

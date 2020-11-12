@@ -25,7 +25,7 @@ def exit_application_handler():
     GuiMixin.get_application().exit()
 
 def add_track_handler():
-    dialog = AddTrackDialog()
+    dialog = NewTrackDialog()
 
 def delete_track_handler():
     print('will delete current track')

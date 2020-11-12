@@ -58,3 +58,6 @@ class Entity(Root):
         for module_name in modules:
             defined.update(dict(inspect.getmembers(sys.modules[module_name])))
         return defined.get(cls_name, None).instances.get(obj_id)
+
+def entity_field_hr(fieldname):
+    return fieldname.replace('_', ' ').capitalize()
