@@ -14,15 +14,11 @@ class Meta(type):
 
 class Root(metaclass=Meta):
     """Main class to adapt composed elements"""
-    instances = list()
-    objects = dict()
     fields = list()
-    field_dependencies = list()
     def __init__(self, **kwargs):
         for k in self.fields:
             setattr(self, k, kwargs.get(k, None))
         self.setup()
-        self.__class__.instances = self.__class__.instances[:] + [self]
     def __getattr__(self, attr_name):
         """Sufficient for single-level adaptation"""
         for k, v in self.__dict__.items():
@@ -34,14 +30,23 @@ class Root(metaclass=Meta):
     def adapt(self, obj, name='adapted', related_name='adapter'):
         setattr(self, name, obj)
         setattr(getattr(self, name), related_name, self)
-    def find_by_classname(self, cls_name):
-        if not cls_name in self.objects:
-            defined = dict(inspect.getmembers(sys.modules['__main__']))
-            self.objects[cls_name] = defined.get(cls_name, None).instances[-1]
+
+class Singleton(Root):
+    instance = None
+    objects = dict()
+    def __new__(cls, *args, **kwargs):
+        if getattr(cls, 'instance') is None:
+            cls.instance = object.__new__(cls)
+        return cls.instance
+    def find(self, cls_name):
+        defined = dict(inspect.getmembers(sys.modules['__main__']))
+        self.objects[cls_name] = defined.get(cls_name, None).instance
         return self.objects[cls_name]
 
-class Updater:
-    """Get-set descriptor for updating elements"""
-    source = target = None
-    def __init__(self, **kwargs):
-        self.__dict__.update(kwargs)
+class Entity(Root):
+    instances = dict()
+    def __new__(cls, *args, **kwargs):
+        obj_id = cls.get_id(kwargs)
+        if cls.instances.get(obj_id) is None:
+            cls.instances[obj_id] = object.__new__(cls)
+        return cls.instances[obj_id]

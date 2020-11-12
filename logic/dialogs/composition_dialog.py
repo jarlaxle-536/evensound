@@ -35,9 +35,8 @@ class NewCompositionOKButton(QPushButtonMixin):
         self.connect_to_func(self.action)
     def action(self):
         data = self.find_by_classname('NewCompositionWidget').acquire()
-        print(data)
-        'do smth with acquired data'
         composition = Composition(**data)
+        print(composition.__dict__)
         self.application.state.set_composition(composition)
         dialog = self.find_by_classname('NewCompositionDialog')
         dialog.close()

@@ -18,4 +18,4 @@ class State(Persistent):
             self = file['state']
     def set_composition(self, composition):
         self.composition = composition
-#        self.find_by_classname('CompositionInfo').setup()
+        self.find_by_classname('CompositionLabel').setup()

@@ -21,17 +21,11 @@ class SomeLabel(QLabelMixin):
 
 class CompositionLabel(QLabelMixin):
     def setup(self):
-        self.text = f'Composition: {self.application.composition.title}'
+        self.text = str(self.application.composition.title).upper()
         print(str(self.text))
         super().setup()
 
-class TrackListLabel(QLabelMixin):
-    text = 'here will be tracks'
-
 class TrackList(QListWidgetMixin):
-    contents = {c.__name__: c for c in [
-        TrackListLabel,
-    ]}
     def setup(self):
         tracks = self.application.tracks
         self.contents = {str(t): t for t in tracks}
