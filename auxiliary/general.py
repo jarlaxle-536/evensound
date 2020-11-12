@@ -17,7 +17,7 @@ class Root(metaclass=Meta):
     fields = list()
     def __init__(self, **kwargs):
         for k in self.fields:
-            setattr(self, k, kwargs.get(k, None))
+            setattr(self, k, kwargs.get(k, getattr(self, k)))
         self.setup()
     def __getattr__(self, attr_name):
         """Sufficient for single-level adaptation"""
@@ -52,6 +52,7 @@ class Entity(Root):
         if cls.instances.get(obj_id) is None:
             cls.instances[obj_id] = object.__new__(cls)
         return cls.instances[obj_id]
+    @staticmethod
     def find(cls_name, obj_id, modules=['__main__']):
         defined = dict()
         for module_name in modules:

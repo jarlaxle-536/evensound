@@ -1,4 +1,22 @@
+from entities import *
 from .general import *
+
+class TrackNameRow(FormRowMixin):
+    name = 'name'
+
+class InstrumentTimbreComboBox(QComboBoxMixin):
+    options = Instrument.instrument_timbre_choices
+
+class InstrumentComboBox(QComboBoxMixin):
+    options = Instrument.instrument_code_choices
+
+class InstrumentTimbreRow(FormRowMixin):
+    name = 'instrument_timbre'
+    input_type = InstrumentTimbreComboBox
+
+class InstrumentRow(FormRowMixin):
+    name = 'instrument'
+    input_type = InstrumentComboBox
 
 class AddTrackCancelButton(QPushButtonMixin):
     text = 'Cancel'
@@ -6,7 +24,7 @@ class AddTrackCancelButton(QPushButtonMixin):
         super().setup()
         self.connect_to_func(self.action)
     def action(self):
-        dialog = self.find_by_classname('AddTrackDialog')
+        dialog = self.find('AddTrackDialog')
         dialog.close()
 
 class AddTrackOKButton(QPushButtonMixin):
@@ -15,10 +33,7 @@ class AddTrackOKButton(QPushButtonMixin):
         super().setup()
         self.connect_to_func(self.action)
     def action(self):
-#        data = self.find_by_classname('AddTrackWidget').acquire()
-#        print(data)
-#        'do smth with acquired data'
-        dialog = self.find_by_classname('AddTrackDialog')
+        dialog = self.find('AddTrackDialog')
         dialog.close()
 
 class AddTrackControlPanel(QWidgetMixin):
@@ -31,6 +46,9 @@ class AddTrackControlPanel(QWidgetMixin):
 class AddTrackWidget(QWidgetMixin, FormDataMixin):
     form_fields = []
     contents = {cls.__name__: cls for cls in [
+        TrackNameRow,
+        InstrumentTimbreRow,
+        InstrumentRow,
         AddTrackControlPanel,
     ]}
 

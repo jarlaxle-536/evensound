@@ -12,6 +12,7 @@ class Composition(Persistent):
     tracks = list()
 
     def setup(self):
+        print(self.title)
         self.add_track()
         self.beats = [Beat(), ]
 

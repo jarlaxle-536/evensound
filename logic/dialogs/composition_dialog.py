@@ -15,7 +15,7 @@ class RandomizeCompositionTitleButton(QPushButtonMixin):
         self.connect_to_func(self.action)
     def action(self):
         title = self.faker.sentence().replace('.', '')
-        title_input = self.find_by_classname('CompositionTitleRow').Input
+        title_input = self.find('CompositionTitleRow').Input
         title_input.entered_text = title
         title_input.setup()
 
@@ -25,7 +25,7 @@ class NewCompositionCancelButton(QPushButtonMixin):
         super().setup()
         self.connect_to_func(self.action)
     def action(self):
-        dialog = self.find_by_classname('NewCompositionDialog')
+        dialog = self.find('NewCompositionDialog')
         dialog.close()
 
 class NewCompositionOKButton(QPushButtonMixin):
@@ -34,12 +34,13 @@ class NewCompositionOKButton(QPushButtonMixin):
         super().setup()
         self.connect_to_func(self.action)
     def action(self):
-        data = self.find_by_classname('NewCompositionWidget').acquire()
+        data = self.find('NewCompositionWidget').acquire()
         composition = Composition(**data)
         print(composition.__dict__)
         self.application.state.set_composition(composition)
-        dialog = self.find_by_classname('NewCompositionDialog')
+        dialog = self.find('NewCompositionDialog')
         dialog.close()
+        self.find('CompositionLabel').setup()
 
 class NewCompositionControlPanel(QWidgetMixin):
     layout_type = QtWidgets.QHBoxLayout

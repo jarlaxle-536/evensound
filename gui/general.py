@@ -3,7 +3,7 @@ from PyQt5 import QtWidgets, QtCore, QtGui
 from auxiliary import *
 from config import *
 
-class GuiMixin(Root):
+class GuiMixin(Singleton):
     constructor = lambda *args, **kwargs: None
     constructor_args = tuple()
     constructor_kwargs = dict()
@@ -80,11 +80,7 @@ class QWidgetMixin(GuiMixin):
             self.layout.addWidget(obj.gui)
         self.setLayout(self.layout)
 
-class InputMixin(GuiMixin):
-    def get_value(self):
-        return None
-
-class QLineEditMixin(InputMixin):
+class QLineEditMixin(GuiMixin):
     constructor = QtWidgets.QLineEdit
     entered_text = ''
     def setup(self):
@@ -93,8 +89,13 @@ class QLineEditMixin(InputMixin):
     def get_value(self):
         return self.entered_text
 
-class QComboBoxMixin(InputMixin):
+class QComboBoxMixin(GuiMixin):
     constructor = QtWidgets.QComboBox
+    options = list()
+    def setup(self):
+        super().setup()
+        for number, string in self.options:
+            self.addItem(string)
 
 class FormRowMixin(QWidgetMixin):
     layout_type = QtWidgets.QHBoxLayout
@@ -115,7 +116,7 @@ class FormRowMixin(QWidgetMixin):
 class FormDataMixin(Root):
     form_fields = list()
     def acquire(self):
-        rows = [cls.instances[-1] for t, cls in self.contents.items()
+        rows = [cls.instance for t, cls in self.contents.items()
             if t in self.form_fields]
         data = dict([row.acquire() for row in rows])
         return data
