@@ -16,19 +16,15 @@ class MainWindow(QMainWindowMixin):
         SettingsMenu
     ]
 
-class SomeLabel(QLabelMixin):
-    text = 'lorem ipsum'
-
 class CompositionLabel(QLabelMixin):
     def setup(self):
         self.text = str(self.application.composition.title).upper()
         self.setAlignment(QtCore.Qt.AlignCenter)
-        print(str(self.text))
         super().setup()
 
 class TrackList(QListWidgetMixin):
     def setup(self):
-        tracks = self.application.tracks
+        tracks = self.application.state.composition.tracks
         self.contents = {str(t): t for t in tracks}
         super().setup()
 
@@ -37,14 +33,18 @@ class CompositionInfo(QWidgetMixin):
         CompositionLabel,
     ]}
 
+class TrackInfoLabel(QLabelMixin):
+    text = 'Here will be track info'
+
 class TrackInfo(QWidgetMixin):
     contents = {c.__name__: c for c in [
-
+        TrackInfoLabel,
     ]}
 
 class MainWidget(QWidgetMixin):
     contents = {c.__name__: c for c in [
         CompositionInfo,
+        TrackInfo,
         TrackList,
         ControlPanel
     ]}

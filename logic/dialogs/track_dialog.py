@@ -5,24 +5,23 @@ class TrackNameRow(FormRowMixin):
     name = 'name'
 
 class InstrumentTimbreComboBox(QComboBoxMixin):
-    options = Instrument.instrument_timbre_choices
+    options = list(Instrument.midi_codes.keys())
     def on_change(self):
-        GuiMixin.find('InstrumentComboBox').setup()
+        GuiMixin.find('InstrumentNameComboBox').setup()
 
-class InstrumentComboBox(QComboBoxMixin):
-    options = Instrument.instrument_code_choices
+class InstrumentNameComboBox(QComboBoxMixin):
     def setup(self):
-        instrument_timbre = GuiMixin.find('InstrumentTimbreComboBox').get_value()
-        self.options = MIDI_CODES[instrument_timbre].values()
+        chosen_timbre = GuiMixin.find('InstrumentTimbreComboBox').get_value()
+        self.options = list(Instrument.midi_codes[chosen_timbre].values())
         super().setup()
 
 class InstrumentTimbreRow(FormRowMixin):
     name = 'instrument_timbre'
     input_type = InstrumentTimbreComboBox
 
-class InstrumentRow(FormRowMixin):
-    name = 'instrument'
-    input_type = InstrumentComboBox
+class InstrumentNameRow(FormRowMixin):
+    name = 'instrument_name'
+    input_type = InstrumentNameComboBox
 
 class NewTrackCancelButton(QPushButtonMixin):
     text = 'Cancel'
@@ -39,6 +38,10 @@ class NewTrackOKButton(QPushButtonMixin):
         super().setup()
         self.connect_to_func(self.action)
     def action(self):
+        data = self.find('NewTrackWidget').acquire()
+        composition = self.application.state.composition
+        print(f'Acquired data: {data}')
+#        composition.add_track(**data)
         dialog = self.find('NewTrackDialog')
         dialog.close()
 
@@ -50,11 +53,11 @@ class NewTrackControlPanel(QWidgetMixin):
     ]}
 
 class NewTrackWidget(QWidgetMixin, FormDataMixin):
-    form_fields = []
+    form_fields = ['TrackNameRow', 'InstrumentTimbreRow', 'InstrumentNameRow']
     contents = {cls.__name__: cls for cls in [
         TrackNameRow,
         InstrumentTimbreRow,
-        InstrumentRow,
+        InstrumentNameRow,
         NewTrackControlPanel,
     ]}
 

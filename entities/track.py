@@ -1,7 +1,7 @@
 from .general import *
 from .instrument import *
 
-class Track(Root):
+class Track(Entity):
     fields = ['name', 'composition']
     name = 'Track'
 
@@ -13,8 +13,12 @@ class Track(Root):
         self.instrument = Instrument(**kwargs)
 
     def __str__(self):
-        return f'{self.name} [{self.instrument.name_expanded}]'
+        return f'{self.name}'
 
     @property
     def default_name(self):
-        return f'Track #{self.composition.number_of_tracks + 1}'
+        return f'Track #{self.composition.number_of_tracks + 1} [{self.instrument.name}]'
+
+    @staticmethod
+    def get_id(dct):
+        return dct.get('name', 0)

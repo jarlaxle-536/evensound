@@ -3,6 +3,9 @@ from PyQt5 import QtWidgets, QtCore, QtGui
 from auxiliary import *
 from config import *
 
+class GuiUpdater(Root):
+    pass
+
 class GuiMixin(Singleton):
     constructor = lambda *args, **kwargs: None
     constructor_args = tuple()
@@ -87,6 +90,7 @@ class QLineEditMixin(GuiMixin):
         super().setup()
         self.setText(self.entered_text)
     def get_value(self):
+        print(f'{self.__class__.__name__} entered text: {self.entered_text}')
         return self.entered_text
 
 class QComboBoxMixin(GuiMixin):

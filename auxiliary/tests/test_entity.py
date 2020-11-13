@@ -8,19 +8,31 @@ class A(Entity):
     def get_id(dct):
         return dct.get('a')
 
+class B(Entity):
+    fields = ['b']
+    @staticmethod
+    def get_id(dct):
+        return dct.get('b')
+
 class EntityTestCase(unittest.TestCase):
     def setUp(self):
-        self.cls = A
+        self.classes = [A, B]
     def tearDown(self):
-        self.cls.instances = dict()
+        for cls in self.classes:
+            cls.instances = dict()
     def test_objects_creation(self):
-        inst1 = self.cls(a=1)
-        inst2 = self.cls(a=1)
-        inst3 = self.cls(a=2)
-        self.assertEqual(len(self.cls.instances), 2)
+        inst1 = A(a=1)
+        inst2 = A(a=1)
+        inst3 = A(a=2)
+        self.assertEqual(len(A.instances), 2)
         self.assertEqual(inst1, inst2)
         self.assertNotEqual(inst1, inst3)
     def test_find(self):
-        a = self.cls(a=42)
-        self.assertEqual(a, self.cls.find('A', 42,
+        a = A(a=42)
+        self.assertEqual(a, Entity.find('A', 42,
             modules=['__main__', 'auxiliary.tests.test_entity']))
+    def test_no_collision(self):
+        a = A(a=1)
+        b = B(b=1)
+        print(a.__dict__, b.__dict__)
+        print(A.instances, B.instances)

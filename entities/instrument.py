@@ -2,17 +2,19 @@ from auxiliary import *
 from data_loader import *
 from config import *
 
-class Instrument(Root):
+from .persistent import *
+
+class Instrument(Entity):
+    program_code = 1
     fields = [
-        'type',
-        'code',
+        'program_code',
     ]
-    instrument_timbre_choices = list(MIDI_CODES.keys())
-    instrument_timbre = instrument_timbre_choices[0]
-    instrument_code_choices = list(MIDI_CODES[instrument_timbre].values())
-    instrument_code = instrument_code_choices[0]
+    midi_codes = MIDI_CODES.copy()
+    @property
+    def name(self):
+        return MIDI_CODES_FLATTENED.get(str(self.program_code))
     def setup(self):
         pass
-    @property
-    def name_expanded(self):
-        return MIDI_CODES_FLATTENED.get(str(self.instrument_code), None)
+    @staticmethod
+    def get_id(dct):
+        return dct.get('name')
