@@ -1,13 +1,30 @@
 from entities import *
 from .general import *
 
-class TrackNameRow(FormRowMixin):
+class TrackNameLabel(FormRowLabelMixin):
     name = 'name'
+
+class TrackNameInput(QLineEditMixin):
+    pass
+
+class TrackNameRow(FormRowMixin):
+    label_class = TrackNameLabel
+    input_class = TrackNameInput
+
+class InstrumentTimbreLabel(FormRowLabelMixin):
+    name = 'instrument_timbre'
 
 class InstrumentTimbreComboBox(QComboBoxMixin):
     options = list(Instrument.midi_codes.keys())
     def on_change(self):
         GuiMixin.find('InstrumentNameComboBox').setup()
+
+class InstrumentTimbreRow(FormRowMixin):
+    label_class = InstrumentTimbreLabel
+    input_class = InstrumentTimbreComboBox
+
+class InstrumentNameLabel(FormRowLabelMixin):
+    name = 'instrument_name'
 
 class InstrumentNameComboBox(QComboBoxMixin):
     def setup(self):
@@ -15,13 +32,9 @@ class InstrumentNameComboBox(QComboBoxMixin):
         self.options = list(Instrument.midi_codes[chosen_timbre].values())
         super().setup()
 
-class InstrumentTimbreRow(FormRowMixin):
-    name = 'instrument_timbre'
-    input_type = InstrumentTimbreComboBox
-
 class InstrumentNameRow(FormRowMixin):
-    name = 'instrument_name'
-    input_type = InstrumentNameComboBox
+    label_class = InstrumentNameLabel
+    input_class = InstrumentNameComboBox
 
 class NewTrackCancelButton(QPushButtonMixin):
     text = 'Cancel'
@@ -38,12 +51,14 @@ class NewTrackOKButton(QPushButtonMixin):
         super().setup()
         self.connect_to_func(self.action)
     def action(self):
-        data = self.find('NewTrackWidget').acquire()
+        data = self.refine_data(self.find('NewTrackWidget').acquire())
         composition = self.application.state.composition
         print(f'Acquired data: {data}')
 #        composition.add_track(**data)
         dialog = self.find('NewTrackDialog')
         dialog.close()
+    def refine_data(self, data):
+        return data
 
 class NewTrackControlPanel(QWidgetMixin):
     layout_type = QtWidgets.QHBoxLayout

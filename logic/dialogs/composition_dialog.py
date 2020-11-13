@@ -4,8 +4,15 @@ import sys
 from entities import *
 from .general import *
 
-class CompositionTitleRow(FormRowMixin):
+class CompositionTitleLabel(FormRowLabelMixin):
     name = 'title'
+
+class CompositionTitleInput(QLineEditMixin):
+    pass
+
+class CompositionTitleRow(FormRowMixin):
+    label_class = CompositionTitleLabel
+    input_class = CompositionTitleInput
 
 class RandomizeCompositionTitleButton(QPushButtonMixin):
     text = 'Randomize title'
@@ -15,9 +22,10 @@ class RandomizeCompositionTitleButton(QPushButtonMixin):
         self.connect_to_func(self.action)
     def action(self):
         title = self.faker.sentence().replace('.', '')
-        title_input = self.find('CompositionTitleRow').Input
-        title_input.entered_text = title
-        title_input.setup()
+        print(title)
+#        title_input = self.find('CompositionTitleRow').Input
+#        title_input.entered_text = title
+#        title_input.setup()
 
 class NewCompositionCancelButton(QPushButtonMixin):
     text = 'Cancel'
@@ -34,13 +42,15 @@ class NewCompositionOKButton(QPushButtonMixin):
         super().setup()
         self.connect_to_func(self.action)
     def action(self):
-        data = self.find('NewCompositionWidget').acquire()
+        data = self.refine_data(self.find('NewCompositionWidget').acquire())
         composition = Composition(**data)
         print(composition.__dict__)
         self.application.state.set_composition(composition)
         dialog = self.find('NewCompositionDialog')
         dialog.close()
         self.find('CompositionLabel').setup()
+    def refine_data(self, data):
+        return data
 
 class NewCompositionControlPanel(QWidgetMixin):
     layout_type = QtWidgets.QHBoxLayout

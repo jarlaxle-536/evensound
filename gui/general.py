@@ -83,54 +83,6 @@ class QWidgetMixin(GuiMixin):
             self.layout.addWidget(obj.gui)
         self.setLayout(self.layout)
 
-class QLineEditMixin(GuiMixin):
-    constructor = QtWidgets.QLineEdit
-    entered_text = ''
-    def setup(self):
-        super().setup()
-        self.setText(self.entered_text)
-    def get_value(self):
-        print(f'{self.__class__.__name__} entered text: {self.entered_text}')
-        return self.entered_text
-
-class QComboBoxMixin(GuiMixin):
-    constructor = QtWidgets.QComboBox
-    options = list()
-    def setup(self):
-        super().setup()
-        self.clear()
-        for opt in self.options:
-            self.addItem(opt)
-        self.currentIndexChanged.connect(self.on_change)
-    def get_value(self):
-        return self.options[self.currentIndex()]
-    def on_change(self, new_index):
-        print(f'{self.__class__.__name__} on change: {new_index}')
-
-class FormRowMixin(QWidgetMixin):
-    layout_type = QtWidgets.QHBoxLayout
-    name = 'name'
-    input_type = QLineEditMixin
-    def setup(self):
-        self.text = f'{entity_field_hr(self.name)}:'
-        self.contents = {
-            'Label':
-                lambda: QLabelMixin(text=self.text),
-            'Input':
-                lambda: self.input_type.__call__(),
-        }
-        super().setup()
-    def acquire(self):
-        return (self.name, self.get_value())
-
-class FormDataMixin(Root):
-    form_fields = list()
-    def acquire(self):
-        rows = [cls.instance for t, cls in self.contents.items()
-            if t in self.form_fields]
-        data = dict([row.acquire() for row in rows])
-        return data
-
 class QListWidgetMixin(GuiMixin):
     constructor = QtWidgets.QListWidget
     contents = dict()
