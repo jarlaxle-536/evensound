@@ -1,11 +1,11 @@
 from auxiliary import *
 
-from .persistent import *
 from .general import *
+from .persistent import *
 from .track import *
 from .beat import *
 
-class Composition(Entity):
+class Composition(Persistent):
 
     title = 'Composition title'
     fields = ['title']
@@ -34,4 +34,4 @@ class Composition(Entity):
     @staticmethod
     def get_id(dct):
         print(f'composition get id with {dct}')
-        return 1
+        return dct.get('title', Composition.title)

@@ -51,7 +51,7 @@ class NewTrackOKButton(QPushButtonMixin):
         super().setup()
         self.connect_to_func(self.action)
     def action(self):
-        data = self.refine_data(self.find('NewTrackWidget').acquire())
+        data = self.find('NewTrackWidget').acquire()
         composition = self.application.state.composition
         print(f'Acquired data: {data}')
 #        composition.add_track(**data)

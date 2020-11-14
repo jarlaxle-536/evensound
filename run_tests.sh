@@ -1,2 +1,2 @@
 source venv/bin/activate
-python -m unittest
+python -m unittest -b

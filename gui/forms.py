@@ -1,14 +1,23 @@
 from .general import *
 
+"""
+    Both QLineEditMixin and QComboBoxMixin are declared here,
+    since they are assumed to be used in forms only.
+"""
+
 class QLineEditMixin(GuiMixin):
     constructor = QtWidgets.QLineEdit
     entered_text = ''
     def setup(self):
         super().setup()
         self.setText(self.entered_text)
+        self.textChanged[str].connect(self.on_change)
     def get_value(self):
         print(f'{self.__class__.__name__} entered text: {self.entered_text}')
         return self.entered_text
+    def on_change(self, text):
+        print(f'{self.__class__.__name__} has changed: {text}')
+        self.entered_text = text
 
 class QComboBoxMixin(GuiMixin):
     constructor = QtWidgets.QComboBox
@@ -47,4 +56,6 @@ class FormDataMixin(Root):
         rows = [cls.instance for t, cls in self.contents.items()
             if t in self.form_fields]
         data = dict([row.acquire() for row in rows])
+        return self.refine_data(data)
+    def refine_data(self, data):
         return data

@@ -1,5 +1,7 @@
 from auxiliary import *
 
+from .general import *
+
 class Persistent(Entity):
     db_fields = list()
     def __getstate__(self):

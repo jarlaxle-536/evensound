@@ -1,5 +1,6 @@
 from auxiliary import *
 
+from .general import *
 from .persistent import *
 
 class Beat(Entity):

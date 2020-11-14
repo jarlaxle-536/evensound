@@ -4,6 +4,14 @@ from gui import *
 from .menubar import *
 from .control_panel import *
 
+class EntifiedGui(GuiMixin):
+    entity = None
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        if isinstance(self.entity, Entity):
+            self.entity.connected_guis = getatttr(self.entity,
+                'connected_guis', list()).copy() + [self, ]
+
 class Application(QApplicationMixin, StateMixin):
     pass
 

@@ -1,7 +1,8 @@
 import shelve
 
-from .composition import *
+from .general import *
 from .persistent import *
+from .composition import *
 
 class State(Persistent):
     db_fields = ['composition', ]

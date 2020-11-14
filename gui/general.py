@@ -10,13 +10,18 @@ class GuiMixin(Singleton):
     constructor = lambda *args, **kwargs: None
     constructor_args = tuple()
     constructor_kwargs = dict()
+    updated = True
     def __init__(self, **kwargs):
         self.adapt()
         Root.__init__(self, **kwargs)
+        self.application.register(self)
     def adapt(self, *args, **kwargs):
         obj = self.constructor(
             *self.constructor_args, **self.constructor_kwargs)
         Root.adapt(self, obj, name='gui')
+    def action(self):
+        print('This will trigger gui update.')
+        self.application.update_gui()
     @staticmethod
     def get_application():
         return QtWidgets.QApplication.instance().adapter
@@ -27,6 +32,13 @@ class GuiMixin(Singleton):
 class QApplicationMixin(GuiMixin):
     constructor = QtWidgets.QApplication
     constructor_args = (list(), )
+    _objects = dict()
+    def register(self, obj):
+        self._objects[obj.__class__.__name__] = obj
+    def update_gui(self):
+        for obj in self._objects:
+            if not obj.updated:
+                obj.update()
 
 class QMainWindowMixin(GuiMixin):
     constructor = QtWidgets.QMainWindow
@@ -103,6 +115,10 @@ class QPushButtonMixin(GuiMixin):
     def setup(self):
         self.setText(self.text)
     def connect_to_func(self, action):
+        try:
+            print(dir(self.clicked))
+            self.clicked.disconnect()
+        except Exception: pass
         self.clicked.connect(action)
 
 class QDialogMixin(GuiMixin):
