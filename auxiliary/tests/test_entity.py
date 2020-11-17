@@ -1,6 +1,6 @@
 import unittest
 
-from auxiliary.general import *
+from entities.general import *
 
 class A(Entity):
     fields = ['a']
@@ -29,7 +29,7 @@ class EntityTestCase(unittest.TestCase):
         self.assertNotEqual(inst1, inst3)
     def test_find(self):
         a = A(a=42)
-        self.assertEqual(a, Entity.find('A', 42,
+        self.assertEqual(a, Entity.find('A', obj_id=42,
             modules=['__main__', 'auxiliary.tests.test_entity']))
     def test_no_collision(self):
         a = A(a=1)

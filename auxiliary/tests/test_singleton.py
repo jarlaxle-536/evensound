@@ -5,14 +5,22 @@ from auxiliary.general import *
 class A(Singleton):
     pass
 
+class B(Singleton):
+    pass
+
 class SingletonTestCase(unittest.TestCase):
     def setUp(self):
-        self.cls = A
+        self.cls1 = A
+        self.cls2 = B
     def test_object_not_created_twice(self):
-        a, b = [self.cls() for i in range(2)]
-        self.assertEqual(a, b)
-        self.assertEqual(a, self.cls.instance)
+        a1, a2 = [self.cls1() for i in range(2)]
+        self.assertEqual(a1, a2)
+        self.assertEqual(a1, self.cls1.instances[Singleton.key])
+    def test_no_collisions(self):
+        a, b = self.cls1(), self.cls2()
+        self.assertTrue(isinstance(a, self.cls1))
+        self.assertTrue(isinstance(b, self.cls2))
     def test_find(self):
-        a = self.cls()
-        self.assertEqual(a, self.cls.find('A',
+        a = self.cls1()
+        self.assertEqual(a, self.cls1.find('A',
             modules=['__main__', 'auxiliary.tests.test_singleton']))
