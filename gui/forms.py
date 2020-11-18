@@ -53,7 +53,7 @@ class FormRowMixin(QWidgetMixin):
 class FormDataMixin(Root):
     form_fields = list()
     def acquire(self):
-        rows = [cls.instance for t, cls in self.contents.items()
+        rows = [cls.find(cls.__name__) for t, cls in self.contents.items()
             if t in self.form_fields]
         data = dict([row.acquire() for row in rows])
         return self.refine_data(data)

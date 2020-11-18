@@ -3,6 +3,9 @@ from auxiliary import *
 from .general import *
 from .persistent import *
 
+class BeatLayer:
+    pass
+
 class Beat(Entity):
     fields = [
         'tempo',

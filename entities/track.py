@@ -1,9 +1,11 @@
 from .general import *
 from .instrument import *
+from .beat import *
 
 class Track(Entity):
     fields = ['name', 'composition']
     name = 'Track'
+    beats = list()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -13,6 +15,12 @@ class Track(Entity):
             self.name = self.default_name
         self.__dict__.setdefault('name', self.default_name)
         self.instrument = Instrument(**kwargs)
+        self.insert_beat()
+
+    def insert_beat(self, position=None, *args, **kwargs):
+        kwargs['track'] =  self
+        beat_obj = Beat(*args, **kwargs)
+        self.beats = insert_into_list(self.beats, beat_obj, position)
 
     def __str__(self):
         return f'{self.name}'

@@ -32,7 +32,7 @@ class GuiMixin(Singleton):
 class QApplicationMixin(GuiMixin):
     constructor = QtWidgets.QApplication
     constructor_args = (list(), )
-    _objects = dict()
+#    _objects = dict()
 #    def register(self, obj):
 #        self._objects[obj.__class__.__name__] = obj
 #    def update_gui(self):
@@ -45,13 +45,15 @@ class QMainWindowMixin(GuiMixin):
     title = 'Main window'
     window_size = MAX_WINDOW_SIZE
     menus = list()
-    def setup(self):
+    def update(self):
         self.window_centered = tuple(map(
             lambda t: (t[0] - t[1]) // 2, zip(MAX_WINDOW_SIZE, self.window_size)
         ))
         self.setGeometry(*self.window_centered, *self.window_size)
         self.setWindowTitle(self.title)
         self.create_menubar()
+    def setup(self):
+        self.update()
         self.show()
     def create_menubar(self):
         if not self.menus: return
@@ -64,8 +66,10 @@ class QMenuMixin(GuiMixin):
     constructor = QtWidgets.QMenu
     actions_list = list()
     fields = ['menubar']
-    def setup(self):
+    def update(self):
         self.setTitle(self.title)
+    def setup(self):
+        self.update()
         menu = self.menubar.addMenu(self.title)
         for action_cls in self.actions_list:
             action_cls(menu=menu)

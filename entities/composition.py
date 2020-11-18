@@ -1,7 +1,6 @@
 from .general import *
 from .persistent import *
 from .track import *
-from .beat import *
 
 class Composition(Singleton, Persistent):
 
@@ -11,20 +10,16 @@ class Composition(Singleton, Persistent):
 
     def setup(self):
         print(f'{self.__class__.__name__} title is {self.title.upper()}')
-        self.add_track()
-        self.beats = [Beat(), ]
+        self.insert_track()
 
     @property
     def number_of_tracks(self):
         return len(self.tracks)
 
-    def add_track(self, **kwargs):
-        print('Adding track to composition')
+    def insert_track(self, position=None, *args, **kwargs):
         kwargs['composition'] = self
         track_obj = Track(**kwargs)
-        print(f'Track object: {track_obj.__dict__}')
-        print(f'Instrument object: {track_obj.instrument.__dict__}')
-        self.tracks += [track_obj]
+        self.tracks = insert_into_list(self.tracks, track_obj, position)
 
     def __str__(self):
         return str(self.title)
