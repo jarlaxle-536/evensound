@@ -1,6 +1,8 @@
-from auxiliary import *
-from .state import *
+import pygame.midi
 
-class StateMixin(Root):
-    def setup(self):
-        self.state = State()
+from config import *
+from data_loader import *
+from auxiliary import *
+
+from .state import *
+from .player import *

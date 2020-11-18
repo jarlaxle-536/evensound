@@ -4,7 +4,7 @@ from .general import *
 from .persistent import *
 from .composition import *
 
-class State(Persistent):
+class State(Singleton, Persistent):
     db_fields = ['composition', ]
     def setup(self):
         obj = Composition()
@@ -25,3 +25,7 @@ class State(Persistent):
     def get_id(dct):
         print(f'state get id with {dct}')
         return 1
+
+class StateMixin(Root):
+    def setup(self):
+        self.state = State()

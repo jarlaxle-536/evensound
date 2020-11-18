@@ -4,6 +4,9 @@ from gui import *
 from .menubar import *
 from .control_panel import *
 
+class LogicMixin(Root):
+    pass
+
 class EntifiedGui(GuiMixin):
     entity = None
     def __init__(self, **kwargs):

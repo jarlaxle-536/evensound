@@ -1,11 +1,9 @@
-from auxiliary import *
-
 from .general import *
 from .persistent import *
 from .track import *
 from .beat import *
 
-class Composition(Persistent):
+class Composition(Singleton, Persistent):
 
     title = 'Composition title'
     fields = ['title']

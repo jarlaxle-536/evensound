@@ -1,8 +1,6 @@
-from auxiliary import *
-
 from .general import *
 
-class Persistent(Entity):
+class Persistent(Root):
     db_fields = list()
     def __getstate__(self):
         print(f'calling getstate for {self.__class__.__name__}')

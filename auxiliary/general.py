@@ -27,11 +27,15 @@ class Root(object):
             if m in sys.modules:
                 defined.update(dict(inspect.getmembers(sys.modules[m])))
         return defined.get(cls_name)
+    @classmethod
+    def test_constructor_kwargs(cls, kwargs):
+#        print(f'Testing if {kwargs} are suitable for {cls.__name__}')
+        return True
 
 class Singleton(Root):
     key = 'object'
     def __new__(cls, *args, **kwargs):
-        if not getattr(cls, 'instances'):
+        if not getattr(cls, 'instances') and cls.test_constructor_kwargs(kwargs):
             cls.instances = cls.instances.copy()
             cls.instances[Singleton.key] = object.__new__(cls)
         return cls.instances[Singleton.key]
@@ -59,7 +63,7 @@ class Entity(Root, metaclass=EntityMeta):
     def __new__(cls, *args, **kwargs):
         print(f'{cls.__name__} new with {args}, {kwargs}')
         obj_id = cls.get_id(kwargs)
-        if cls.instances.get(obj_id) is None:
+        if cls.instances.get(obj_id) is None and cls.test_constructor_kwargs(kwargs):
             cls.instances = cls.instances.copy()
             cls.instances[obj_id] = object.__new__(cls)
         return cls.instances[obj_id]
