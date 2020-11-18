@@ -1,6 +1,4 @@
-import unittest
-
-from auxiliary.general import *
+from auxiliary.tests.loader import *
 
 class A(Singleton):
     pass
@@ -16,11 +14,14 @@ class SingletonTestCase(unittest.TestCase):
         a1, a2 = [self.cls1() for i in range(2)]
         self.assertEqual(a1, a2)
         self.assertEqual(a1, self.cls1.instances[Singleton.key])
-    def test_no_collisions(self):
-        a, b = self.cls1(), self.cls2()
-        self.assertTrue(isinstance(a, self.cls1))
-        self.assertTrue(isinstance(b, self.cls2))
     def test_find(self):
         a = self.cls1()
         self.assertEqual(a, self.cls1.find('A',
             modules=['__main__', 'auxiliary.tests.test_singleton']))
+    def test_no_collisions(self):
+        a, b = self.cls1(), self.cls2()
+        self.assertTrue(isinstance(a, self.cls1))
+        self.assertTrue(isinstance(b, self.cls2))
+
+if __name__ == '__main__':
+    unittest.main()

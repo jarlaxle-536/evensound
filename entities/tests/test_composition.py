@@ -1,8 +1,4 @@
-import unittest
-import os
-
-from auxiliary.general import *
-from entities.composition import *
+from entities.tests.loader import *
 
 class CompositionTestCase(unittest.TestCase):
     def setUp(self):
@@ -19,3 +15,6 @@ class CompositionTestCase(unittest.TestCase):
 #        self.state.load(self.test_filepath)
 #        self.assertEqual(self.original_state_dict, self.state.__dict__)
         pass
+
+if __name__ == '__main__':
+    unittest.main()

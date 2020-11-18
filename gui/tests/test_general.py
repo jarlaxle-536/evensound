@@ -1,6 +1,4 @@
-import unittest
-
-from gui.general import *
+from gui.tests.loader import *
 
 class GuiGeneralTestCase(unittest.TestCase):
     def setUp(self):
@@ -11,3 +9,6 @@ class GuiGeneralTestCase(unittest.TestCase):
         self.assertEqual(self.app.application, GuiMixin.get_application())
         for attr_name in ['app', 'main_window']:
             self.assertEqual(getattr(self, attr_name).application, self.app)
+
+if __name__ == '__main__':
+    unittest.main()

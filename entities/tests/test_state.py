@@ -1,8 +1,4 @@
-import unittest
-import os
-
-from auxiliary.general import *
-from entities.state import *
+from entities.tests.loader import *
 
 class StateTestCase(unittest.TestCase):
     def setUp(self):
@@ -17,3 +13,6 @@ class StateTestCase(unittest.TestCase):
         self.state.save(self.test_filepath)
         self.state.load(self.test_filepath)
         self.assertEqual(self.original_state_dict, self.state.__dict__)
+
+if __name__ == '__main__':
+    unittest.main()

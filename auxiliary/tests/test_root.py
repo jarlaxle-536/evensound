@@ -1,6 +1,4 @@
-import unittest
-
-from auxiliary.general import *
+from auxiliary.tests.loader import *
 
 class RootTestCase(unittest.TestCase):
     def setUp(self):
@@ -49,3 +47,6 @@ class RootTestCase(unittest.TestCase):
         obj = C()
         self.assertEqual(obj.meth1(), A.meth1(obj))
         self.assertEqual(obj.meth2(), B.meth2(obj))
+
+if __name__ == '__main__':
+    unittest.main()

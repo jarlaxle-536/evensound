@@ -1,6 +1,4 @@
-import unittest
-
-from entities.general import *
+from auxiliary.tests.loader import *
 
 class A(Entity):
     fields = ['a']
@@ -36,3 +34,6 @@ class EntityTestCase(unittest.TestCase):
         b = B(b=1)
         print(a.__dict__, b.__dict__)
         print(A.instances, B.instances)
+
+if __name__ == '__main__':
+    unittest.main()

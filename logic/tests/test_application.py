@@ -1,6 +1,4 @@
-import unittest
-
-from logic.general import *
+from logic.tests.loader import *
 
 class TestApplication(unittest.TestCase):
     def setUp(self):
@@ -8,3 +6,6 @@ class TestApplication(unittest.TestCase):
     def test_keys(self):
         for key in ['gui', 'state']:
             self.assertTrue(hasattr(self.app, key))
+
+if __name__ == '__main__':
+    unittest.main()

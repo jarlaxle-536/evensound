@@ -24,9 +24,8 @@ class Root(object):
     def find_class(cls_name, modules=['__main__']):
         defined = dict()
         for m in modules:
-            defined.update(dict(
-                inspect.getmembers(sys.modules[m])
-            ))
+            if m in sys.modules:
+                defined.update(dict(inspect.getmembers(sys.modules[m])))
         return defined.get(cls_name)
 
 class Singleton(Root):
