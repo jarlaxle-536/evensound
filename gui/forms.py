@@ -8,9 +8,11 @@ from .general import *
 class QLineEditMixin(GuiMixin):
     constructor = QtWidgets.QLineEdit
     entered_text = ''
+    def update(self):
+        self.setText(self.entered_text)
     def setup(self):
         super().setup()
-        self.setText(self.entered_text)
+        self.update()
         self.textChanged[str].connect(self.on_change)
     def get_value(self):
         print(f'{self.__class__.__name__} entered text: {self.entered_text}')
@@ -53,6 +55,7 @@ class FormRowMixin(QWidgetMixin):
 class FormDataMixin(Root):
     form_fields = list()
     def acquire(self):
+        print(f'Acquiring data for {self.__class__.__name__}')
         rows = [cls.find(cls.__name__) for t, cls in self.contents.items()
             if t in self.form_fields]
         data = dict([row.acquire() for row in rows])

@@ -4,18 +4,18 @@ class GuiMixin(Singleton):
     constructor = lambda *args, **kwargs: None
     constructor_args = tuple()
     constructor_kwargs = dict()
-    dependent_guis = set()
+    dependent_gui_classes = set()
     def __init__(self, **kwargs):
         self.adapt()
         Root.__init__(self, **kwargs)
-#        self.application.register(self)
+        self.dependent_gui_elements = {self.find(cls)
+            for cls in self.dependent_gui_classes}
     def adapt(self, *args, **kwargs):
         obj = self.constructor(
             *self.constructor_args, **self.constructor_kwargs)
         Root.adapt(self, obj, name='gui')
     def action(self):
-        print('This will trigger gui update.')
-        for adapter in self.dependent_guis:
+        for adapter in self.dependent_gui_elements:
             adapter.update()
     @staticmethod
     def get_application():
@@ -74,6 +74,7 @@ class QActionMixin(GuiMixin):
         if not self.shortcut is None:
             self.setShortcut(self.shortcut)
         self.qmenu = self.menu.addAction(self.text)
+        self.connect_to_func(self.action)
     def connect_to_func(self, func):
         self.qmenu.triggered.connect(func)
 
@@ -118,6 +119,7 @@ class QPushButtonMixin(GuiMixin):
         self.setText(self.text)
     def setup(self):
         self.update()
+        self.connect_to_func(self.action)
     def connect_to_func(self, action):
         self.clicked.connect(action)
 
