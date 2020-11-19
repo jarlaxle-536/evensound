@@ -14,3 +14,7 @@ class Instrument(Entity):
     @staticmethod
     def get_id(dct):
         return dct.get('name')
+    @staticmethod
+    def find_program_code_by_name(name):
+        return (lambda l: int(l[0]) if l else None)(
+            [k for k, v in MIDI_CODES_FLATTENED.items() if v == name])

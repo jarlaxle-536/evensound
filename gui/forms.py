@@ -20,20 +20,24 @@ class QLineEditMixin(GuiMixin):
     def on_change(self, text):
         print(f'{self.__class__.__name__} has changed: {text}')
         self.entered_text = text
+        super().action()
 
 class QComboBoxMixin(GuiMixin):
     constructor = QtWidgets.QComboBox
     options = list()
-    def setup(self):
-        super().setup()
+    def update(self):
         self.clear()
         for opt in self.options:
             self.addItem(opt)
+    def setup(self):
+        super().setup()
+        self.update()
         self.currentIndexChanged.connect(self.on_change)
     def get_value(self):
         return self.options[self.currentIndex()]
     def on_change(self, new_index):
         print(f'{self.__class__.__name__} has changed: {new_index}')
+        super().action()
 
 class FormRowLabelMixin(QLabelMixin):
     name = 'name'
