@@ -1,4 +1,4 @@
-from .general import *
+from .composition_file_dialog_mixin import *
 
 class SaveCompositionDialogMixin(CompositionFileDialogMixin):
     def get_filepath(self):

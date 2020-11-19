@@ -1,8 +1,8 @@
 import sys
 import os
 
-from .dialogs import *
-from gui import *
+from .general import *
+from .entified import *
 
 def new_composition_handler():
     dialog = NewCompositionDialog()
@@ -20,12 +20,9 @@ def save_file_handler():
     dialog = SaveCmpDialog(widget=main_widget)
     app.save(dialog.filepath)
 
-def exit_application_handler():
-    print('exiting...')
-    GuiMixin.get_application().exit()
-
 def add_track_handler():
-    dialog = NewTrackDialog()
+    pass
+#    dialog = NewTrackDialog()
 
 def delete_track_handler():
     print('will delete current track')

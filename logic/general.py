@@ -24,7 +24,6 @@ class MainWindow(QMainWindowMixin):
     menus = [
         FileMenu,
         TrackMenu,
-        SettingsMenu
     ]
 
 class CompositionLabel(QLabelMixin):

@@ -32,18 +32,6 @@ class Root(object):
 #        print(f'Testing if {kwargs} are suitable for {cls.__name__}')
         return True
 
-class Singleton(Root):
-    key = 'object'
-    def __new__(cls, *args, **kwargs):
-        if not getattr(cls, 'instances') and cls.test_constructor_kwargs(kwargs):
-            cls.instances = cls.instances.copy()
-            cls.instances[Singleton.key] = object.__new__(cls)
-        return cls.instances[Singleton.key]
-    @staticmethod
-    def find(cls_name, obj_id=None, modules=['__main__']):
-        cls = Root.find_class(cls_name, modules)
-        return cls.instances[Singleton.key]
-
 class EntityMeta(type):
     """Metaclass to simplify connected gui updates"""
     def __new__(cls, clsname, bases, clsdict):
@@ -61,12 +49,27 @@ class EntityMeta(type):
 
 class Entity(Root, metaclass=EntityMeta):
     def __new__(cls, *args, **kwargs):
-        print(f'{cls.__name__} new with {args}, {kwargs}')
         obj_id = cls.get_id(kwargs)
-        if cls.instances.get(obj_id) is None and cls.test_constructor_kwargs(kwargs):
-            cls.instances = cls.instances.copy()
-            cls.instances[obj_id] = object.__new__(cls)
+        if cls.instances.get(obj_id) is None:
+            cls.register(**kwargs)
+        return cls.instances[obj_id]
+    @classmethod
+    def register(cls, **kwargs):
+        if not cls.test_constructor_kwargs(kwargs): return
+        obj_id = cls.get_id(kwargs)
+        cls.instances = cls.instances.copy()
+        cls.instances[obj_id] = object.__new__(cls)
         return cls.instances[obj_id]
 
 def entity_field_hr(fieldname):
     return fieldname.replace('_', ' ').capitalize()
+
+class Singleton(Entity):
+    key = 'object'
+    @staticmethod
+    def get_id(dct):
+        return Singleton.key
+    @staticmethod
+    def find(cls_name, obj_id=None, modules=['__main__']):
+        cls = Root.find_class(cls_name, modules)
+        return cls.instances[Singleton.key]

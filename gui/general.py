@@ -32,13 +32,6 @@ class GuiMixin(Singleton):
 class QApplicationMixin(GuiMixin):
     constructor = QtWidgets.QApplication
     constructor_args = (list(), )
-#    _objects = dict()
-#    def register(self, obj):
-#        self._objects[obj.__class__.__name__] = obj
-#    def update_gui(self):
-#        for obj in self._objects:
-#            if not obj.updated:
-#                obj.update()
 
 class QMainWindowMixin(GuiMixin):
     constructor = QtWidgets.QMainWindow
@@ -79,8 +72,10 @@ class QActionMixin(GuiMixin):
     text = 'Action'
     shortcut = None
     fields = ['menu']
-    def setup(self):
+    def update(self):
         self.setText(self.text)
+    def setup(self):
+        self.update()
         if not self.shortcut is None:
             self.setShortcut(self.shortcut)
         self.qmenu = self.menu.addAction(self.text)
@@ -91,38 +86,44 @@ class QWidgetMixin(GuiMixin):
     constructor = QtWidgets.QWidget
     layout_type = QtWidgets.QVBoxLayout
     contents = dict()
-    def setup(self):
-        self.layout = self.layout_type.__call__()
+    def update(self):
+#        self.layout.clear()
         for k, v in self.contents.items():
             obj = v.__call__()
             setattr(self, k, obj)
             self.layout.addWidget(obj.gui)
+    def setup(self):
+        self.layout = self.layout_type.__call__()
+        self.update()
         self.setLayout(self.layout)
 
 class QListWidgetMixin(GuiMixin):
     constructor = QtWidgets.QListWidget
     contents = dict()
-    def setup(self):
+    def update(self):
+        self.clear()
         for k, v in self.contents.items():
             self.addItem(k)
+    def setup(self):
+        self.update()
 
 class QLabelMixin(GuiMixin):
     constructor = QtWidgets.QLabel
     text = 'Label'
     fields = ['text']
-    def setup(self):
+    def update(self):
         self.setText(self.text)
+    def setup(self):
+        self.update()
 
 class QPushButtonMixin(GuiMixin):
     constructor = QtWidgets.QPushButton
     text = 'Button'
-    def setup(self):
+    def update(self):
         self.setText(self.text)
+    def setup(self):
+        self.update()
     def connect_to_func(self, action):
-        try:
-            print(dir(self.clicked))
-            self.clicked.disconnect()
-        except Exception: pass
         self.clicked.connect(action)
 
 class QDialogMixin(GuiMixin):
@@ -131,23 +132,25 @@ class QDialogMixin(GuiMixin):
     window_size = (600, 300)
     layout_type = QtWidgets.QVBoxLayout
     central_widget = QWidgetMixin
-    def setup(self):
+    def update(self):
         self.setWindowTitle(self.title)
         self.window_centered = tuple(map(
             lambda t: (t[0] - t[1]) // 2, zip(MAX_WINDOW_SIZE, self.window_size)
         ))
         self.setGeometry(*self.window_centered, *self.window_size)
-        self.show()
-        self.layout = QtWidgets.QVBoxLayout()
         self.layout.addWidget(self.central_widget.__call__().gui)
+    def setup(self):
+        self.layout = QtWidgets.QVBoxLayout()
+        self.update()
         self.setLayout(self.layout)
+        self.show()
 
 class FileDialogMixin(GuiMixin):
     constructor = QtWidgets.QFileDialog
     title = 'File dialog'
     window_size = (320, 240)
     fields = ['widget']
-    def setup(self):
+    def update(self):
         self.window_centered = tuple(map(
             lambda t: (t[0] - t[1]) // 2, zip(MAX_WINDOW_SIZE, self.window_size)
         ))
@@ -155,6 +158,8 @@ class FileDialogMixin(GuiMixin):
         self.options = self.Options()
         self.options |= self.DontUseNativeDialog
         self.options |= self.DontUseCustomDirectoryIcons
+    def setup(self):
+        self.update()
         self.get_filepath()
     def get_filepath(self):
         raise TypeError('Should be specified in subclass')

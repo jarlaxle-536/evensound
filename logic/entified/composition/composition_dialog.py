@@ -2,7 +2,7 @@ import faker
 import sys
 
 from entities import *
-from .general import *
+from logic.general import *
 
 class CompositionTitleLabel(FormRowLabelMixin):
     name = 'title'

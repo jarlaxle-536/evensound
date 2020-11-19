@@ -12,6 +12,7 @@ class SingletonTestCase(unittest.TestCase):
         self.cls2 = B
     def test_object_not_created_twice(self):
         a1, a2 = [self.cls1() for i in range(2)]
+        print(a1, a2)
         self.assertEqual(a1, a2)
         self.assertEqual(a1, self.cls1.instances[Singleton.key])
     def test_find(self):

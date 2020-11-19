@@ -1,4 +1,4 @@
-from gui import *
+from logic.general import *
 
 class CompositionFileDialogMixin(FileDialogMixin):
     ext = 'cmp'

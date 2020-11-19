@@ -1,5 +1,5 @@
 from entities import *
-from .general import *
+from logic.general import *
 
 class TrackNameLabel(FormRowLabelMixin):
     name = 'name'
