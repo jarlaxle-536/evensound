@@ -1,4 +1,4 @@
-from .general import *
+from .loader import *
 
 class Persistent(Root):
     db_fields = list()

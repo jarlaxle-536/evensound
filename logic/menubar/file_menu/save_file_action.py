@@ -1,4 +1,4 @@
-from logic.general import *
+from logic.loader import *
 
 class SaveFileAsAction(QActionMixin):
     text = 'Save file'

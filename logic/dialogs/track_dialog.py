@@ -1,5 +1,4 @@
-from entities import *
-from logic.general import *
+from logic.loader import *
 
 class TrackNameLabel(FormRowLabelMixin):
     name = 'name'

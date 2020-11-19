@@ -1,6 +1,5 @@
-from auxiliary import *
+from .loader import *
 
-from .general import *
 from .persistent import *
 
 class BeatLayer:

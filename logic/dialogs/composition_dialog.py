@@ -1,8 +1,4 @@
-import faker
-import sys
-
-from entities import *
-from logic.general import *
+from logic.loader import *
 
 class CompositionTitleLabel(FormRowLabelMixin):
     name = 'title'

@@ -1,4 +1,4 @@
-from gui import *
+from logic.loader import *
 
 class StopButton(QPushButtonMixin):
     text = 'Stop'

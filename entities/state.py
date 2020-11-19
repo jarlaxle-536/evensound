@@ -1,6 +1,5 @@
-import shelve
+from .loader import *
 
-from .general import *
 from .persistent import *
 from .composition import *
 

@@ -1,4 +1,4 @@
-from logic.general import *
+from logic.loader import *
 
 class CompositionFileDialogMixin(FileDialogMixin):
     ext = 'cmp'

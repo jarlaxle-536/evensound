@@ -1,4 +1,5 @@
-from .general import *
+from .loader import *
+
 from .instrument import *
 from .beat import *
 

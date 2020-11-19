@@ -1,4 +1,4 @@
-from .general import *
+from .loader import *
 
 class Instrument(Entity):
     program_code = 1

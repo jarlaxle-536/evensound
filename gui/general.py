@@ -1,16 +1,10 @@
-from PyQt5 import QtWidgets, QtCore, QtGui
-
-from auxiliary import *
-from config import *
-
-class GuiUpdater(Root):
-    pass
+from .loader import *
 
 class GuiMixin(Singleton):
     constructor = lambda *args, **kwargs: None
     constructor_args = tuple()
     constructor_kwargs = dict()
-    updated = True
+    dependent_guis = set()
     def __init__(self, **kwargs):
         self.adapt()
         Root.__init__(self, **kwargs)
@@ -21,7 +15,8 @@ class GuiMixin(Singleton):
         Root.adapt(self, obj, name='gui')
     def action(self):
         print('This will trigger gui update.')
-#        self.application.update_gui()
+        for adapter in self.dependent_guis:
+            adapter.update()
     @staticmethod
     def get_application():
         return QtWidgets.QApplication.instance().adapter

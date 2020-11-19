@@ -1,6 +1,4 @@
-from .general import *
-
-from scripts.midi_output_handlers import *
+from .loader import *
 
 class Player(Singleton):
     fields = ['midi_device_number']

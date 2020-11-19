@@ -1,5 +1,4 @@
-import inspect
-import sys
+from .loader import *
 
 class Root(object):
     """Main class to adapt composed elements"""

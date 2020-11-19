@@ -1,4 +1,4 @@
-from logic.general import *
+from logic.loader import *
 
 class NewFileAction(QActionMixin):
     text = 'New file'
