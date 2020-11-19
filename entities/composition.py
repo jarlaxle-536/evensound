@@ -21,6 +21,12 @@ class Composition(Singleton, Persistent):
         kwargs['composition'] = self
         track_obj = Track(**kwargs)
         self.tracks = insert_into_list(self.tracks, track_obj, position)
+        if track_obj.name == Track.name:
+            track_obj.name = self.get_default_name_for_track(track_obj)
+
+    def get_default_name_for_track(self, track_obj):
+        index = self.tracks.index(track_obj) + 1
+        return Track.create_track_name(index, track_obj.instrument.name)
 
     def __str__(self):
         return str(self.title)
