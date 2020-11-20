@@ -15,6 +15,7 @@ class Composition(Singleton, Persistent):
         print(f'{self.__class__.__name__} title is {self.title.upper()}')
         self.insert_track()
         self.insert_beat()
+        self.insert_beat()
 
     @property
     def number_of_tracks(self):
@@ -29,6 +30,8 @@ class Composition(Singleton, Persistent):
 
     def get_default_name_for_track(self, track_obj):
         index = self.tracks.index(track_obj) + 1
+        print(track_obj.__dict__)
+        print(track_obj.instrument.__dict__)
         return Track.create_track_name(index, track_obj.instrument.name)
 
     def insert_beat(self, position=None, *args, **kwargs):
@@ -38,7 +41,3 @@ class Composition(Singleton, Persistent):
 
     def __str__(self):
         return str(self.title)
-
-    @staticmethod
-    def get_id(dct):
-        return dct.get('title', Composition.title)

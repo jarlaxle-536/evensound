@@ -12,6 +12,7 @@ class Track(Entity):
     ]
     name = None
     composition = None
+    instrument_program_code = Instrument.program_code
 
     def setup(self):
         self.instrument = Instrument(program_code=self.instrument_program_code)

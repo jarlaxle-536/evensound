@@ -2,14 +2,14 @@ from .loader import *
 
 from .persistent import *
 from .composition import *
+from .cursor import *
 
 class State(Singleton, Persistent):
     db_fields = ['composition', ]
     def setup(self):
-        obj = Composition()
-        self.composition = obj
-        print(f'{self}, {self.composition}, {obj}')
-#        self.set_composition(self.composition)
+        self.composition = Composition()
+        self.cursor = Cursor()
+        print(f'{self}, {self.composition}, {self.cursor}')
     def save(self, filepath):
 #        print(f'will save {self.__dict__} under {filepath}')
         with shelve.open(filepath, 'n', writeback=True) as file:

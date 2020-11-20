@@ -4,7 +4,9 @@ class CompositionTestCase(unittest.TestCase):
     def setUp(self):
         self.composition = Composition()
     def tearDown(self):
-        self.composition = None
+        Composition.instances = dict()
+        Track.instances = dict()
+        Instrument.instances = dict()
     def test_insert_track(self):
         added_track = self.composition.tracks[-1]
         self.assertEqual(added_track.name,

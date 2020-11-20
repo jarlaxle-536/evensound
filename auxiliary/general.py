@@ -72,4 +72,4 @@ class Singleton(Entity):
     def find(cls_name, obj_id=None, modules=['__main__']):
         cls = Root.find_class(cls_name, modules)
         print(cls)
-        return cls.instances[Singleton.key]
+        return cls.instances[cls.key]
