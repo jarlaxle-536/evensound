@@ -17,6 +17,12 @@ class Cursor(Singleton):
         if not getattr(self, '_composition'):
             self._composition = Singleton.find('Composition')
         return self._composition
+    @property
+    def track(self):
+        return self.composition.tracks[self.track_index - 1]
+    @property
+    def beat(self):
+        return self.composition.beats[self.beat_index - 1]
     def __str__(self):
         return f'<CURSOR beat={self.beat_index} track={self.track_index}>'
 
