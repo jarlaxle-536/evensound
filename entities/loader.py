@@ -1,3 +1,4 @@
+import random
 import pygame.midi
 import shelve
 

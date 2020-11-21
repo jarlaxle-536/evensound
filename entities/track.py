@@ -23,7 +23,7 @@ class Track(Entity):
     @staticmethod
     def get_id(dct):
         return dct.get('name', 0)
-
+        
     @staticmethod
     def create_track_name(index, instrument_name):
-        return f'<Track #{index} [{instrument_name}]>'
+        return f'Track #{index}'

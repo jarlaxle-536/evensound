@@ -50,12 +50,11 @@ class Entity(Root, metaclass=EntityMeta):
     def __new__(cls, *args, **kwargs):
         obj_id = cls.get_id(kwargs)
         if cls.instances.get(obj_id) is None:
-            cls.register(**kwargs)
+            cls.register(obj_id=obj_id, **kwargs)
         return cls.instances[obj_id]
     @classmethod
-    def register(cls, **kwargs):
+    def register(cls, obj_id, **kwargs):
         if not cls.test_constructor_kwargs(kwargs): return
-        obj_id = cls.get_id(kwargs)
         cls.instances = cls.instances.copy()
         cls.instances[obj_id] = object.__new__(cls)
         return cls.instances[obj_id]

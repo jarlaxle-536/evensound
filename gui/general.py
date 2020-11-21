@@ -105,6 +105,9 @@ class QListWidgetMixin(GuiMixin):
             self.addItem(k)
     def setup(self):
         self.update()
+        self.currentRowChanged.connect(self.index_changed)
+    def index_changed(self, index):
+        pass
 
 class QLabelMixin(GuiMixin):
     constructor = QtWidgets.QLabel
