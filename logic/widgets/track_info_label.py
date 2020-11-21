@@ -5,8 +5,8 @@ class TrackInfoLabel(QLabelMixin, CursorConnected):
     def update(self):
         print(self.application.composition.sounds)
         sounds = []
-        for b in self.application.composition.beats:
-            sounds += b.sounds
+        for t in self.application.composition.tracks:
+            sounds += t.sounds
         lines = [
             f'Cursor: {self.cursor}',
             f'Present sounds: {" ".join(map(str, sounds))}'

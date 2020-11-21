@@ -1,6 +1,7 @@
 import random
 import pygame.midi
 import shelve
+import heapq
 
 from config import *
 from data_loader import *

@@ -15,7 +15,7 @@ class Composition(Singleton, Persistent):
         print(f'{self.__class__.__name__} title is {self.title.upper()}')
         self.insert_track()
         self.insert_beat()
-        self.beats[-1].insert_sound()
+        self.tracks[0].insert_sound()
 
     @property
     def number_of_tracks(self):

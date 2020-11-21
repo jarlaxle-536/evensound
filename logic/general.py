@@ -13,4 +13,5 @@ class MainWindow(QMainWindowMixin):
     menus = [
         FileMenu,
         TrackMenu,
+        SettingsMenu
     ]

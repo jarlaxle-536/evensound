@@ -15,12 +15,13 @@ def detect_midi_outputs():
 #            play_on_midi_output(current_output)
             MIDI_OUTPUTS[dev_num] = current_output
         except Exception as exc:
-            pass
+            print(exc)
     if not MIDI_OUTPUTS:
         raise NoMidiOutput()
 
 def test_midi_output(midi_output):
     info = pygame.midi.get_device_info(midi_output.device_id)
+    print(info[1].decode("utf-8"))
 
 def play_on_midi_output(midi_output):
     pitch_code = 64

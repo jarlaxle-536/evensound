@@ -27,9 +27,9 @@ class PlayOrPauseButton(QPushButtonMixin, CursorConnected):
         midi = composition.create_midi()
         current_output = self.application.state.player.midi_output
 #        play_on_midi_output(current_output)
-        beat = self.cursor.beat
+        track = self.cursor.track
 #        current_output.set_instrument(31)
-        for s in beat.sounds:
+        for s in track.sounds:
             if not s.pitch is None:
                 current_output.note_on(s.pitch, 127)
                 time.sleep(0.2)
