@@ -39,5 +39,8 @@ class Composition(Singleton, Persistent):
         beat_obj = Beat(**kwargs)
         self.beats = insert_into_list(self.beats, beat_obj, position)
 
+    def create_midi(self):
+        pass
+
     def __str__(self):
         return str(self.title)

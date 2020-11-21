@@ -12,6 +12,7 @@ def detect_midi_outputs():
         try:
             current_output = pygame.midi.Output(dev_num)
             test_midi_output(current_output)
+#            play_on_midi_output(current_output)
             MIDI_OUTPUTS[dev_num] = current_output
         except Exception as exc:
             pass
@@ -23,7 +24,7 @@ def test_midi_output(midi_output):
 
 def play_on_midi_output(midi_output):
     pitch_code = 64
-    midi_output.set_instrument(0)
+    midi_output.set_instrument(30)
     midi_output.note_on(pitch_code, 127)
     time.sleep(0.1)
     midi_output.note_off(pitch_code, 127)

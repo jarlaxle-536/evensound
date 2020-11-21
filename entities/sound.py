@@ -10,7 +10,7 @@ class Sound(Entity):
         'pitch'
     ]
     duration = 16
-    pitch = 42
+    pitch = None
     track = None
     def get_id(dct):
         return random.getrandbits(128)

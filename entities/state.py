@@ -3,12 +3,14 @@ from .loader import *
 from .persistent import *
 from .composition import *
 from .cursor import *
+from .player import *
 
 class State(Singleton, Persistent):
     db_fields = ['composition', ]
     def setup(self):
         self.composition = Composition()
         self.cursor = Cursor()
+        self.player = Player()
         print(f'{self}, {self.composition}, {self.cursor}')
     def save(self, filepath):
 #        print(f'will save {self.__dict__} under {filepath}')
