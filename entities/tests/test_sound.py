@@ -3,17 +3,11 @@ from entities.tests.loader import *
 class SoundTestCase(unittest.TestCase):
     def setUp(self):
         pass
-    def test_default_end_pointer(self):
-        self.composition = Composition()
-        self.pointer = Pointer()
-        self.assertEqual(self.pointer.composition,
-            self.composition)
-        self.assertEqual(self.pointer.beat_index,
-            len(self.composition.beats))
-        self.assertEqual(self.pointer.beat,
-            self.composition.beats[-1])
-        self.assertEqual(self.pointer.quantum_index,
-            self.composition.beats[-1].quantum_number)
+    def test_note_repr(self):
+        sound1 = Sound(pitch=24)
+        sound2 = Sound(pitch=42)
+        self.assertEqual(sound1.note, 'C1')
+        self.assertEqual(sound2.note, 'F#2')
 
 if __name__ == '__main__':
     unittest.main()

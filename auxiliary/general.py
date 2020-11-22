@@ -47,6 +47,7 @@ class EntityMeta(type):
         return cls.instances.get(obj_id)
 
 class Entity(Root, metaclass=EntityMeta):
+    instances = dict()
     def __new__(cls, *args, **kwargs):
         obj_id = cls.get_id(kwargs)
         if cls.instances.get(obj_id) is None:
@@ -61,6 +62,9 @@ class Entity(Root, metaclass=EntityMeta):
     @staticmethod
     def get_id(dct):
         return random.getrandbits(128)
+    @classmethod
+    def clear(cls):
+        cls.instances = dict()
 
 def entity_field_hr(fieldname):
     return fieldname.replace('_', ' ').capitalize()

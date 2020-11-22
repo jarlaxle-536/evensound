@@ -10,3 +10,8 @@ MIDI_CODES_FLATTENED = dict()
 for k, v in MIDI_CODES.items():
     MIDI_CODES_FLATTENED.update(v)
 MIDI_CODES_FLATTENED_INVERSE = {v: k for k, v in MIDI_CODES_FLATTENED.items()}
+
+# NOTES, SCALES, etc
+
+with open(NOTES_FILEPATH) as file:
+    NOTES = json.load(file)

@@ -1,12 +1,7 @@
 from entities.tests.loader import *
 
 class CompositionTestCase(unittest.TestCase):
-    def setUp(self):
-        self.composition = Composition()
-    def tearDown(self):
-        Composition.instances = dict()
-        Track.instances = dict()
-        Instrument.instances = dict()
+    pass
 #    def test_insert_track(self):
 #        added_track = self.composition.tracks[-1]
 #        self.assertEqual(added_track.name,
