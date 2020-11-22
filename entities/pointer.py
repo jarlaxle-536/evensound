@@ -1,26 +1,22 @@
 from .loader import *
 
-class Pointer(Entity):
-    beat_index = None
-    quantum_index = None
+class Pointer(Entity, CompositionConnected):
+    _beat_index = None
+    _quantum_index = None
     fields = [
-        'beat_index',
-        'quantum_index'
+        '_beat_index',
+        '_quantum_index'
     ]
-    def setup(self):
-        self.check_undefined()
-    def check_undefined(self):
-#        if any of beat_index or quantum_index is None, make it point to the end
-        if any(map(lambda f: getattr(self, f),
-            ['beat_index', 'quantum_index'])) is None:
-            composition = Singleton.find('Composition')
-            self.beat_index = len(composition.beats)
-            self.quantum_index = self.beat.quantum_number
     @property
-    def composition(self):
-        if not getattr(self, '_composition'):
-            self._composition = Singleton.find('Composition')
-        return self._composition
+    def beat_index(self):
+        if getattr(self, '_beat_index') is None:
+            self._beat_index = len(self.composition.beats)
+        return self._beat_index
+    @property
+    def quantum_index(self):
+        if getattr(self, '_quantum_index') is None:
+            self._quantum_index = self.composition.beats[-1].quantum_number
+        return self._quantum_index
     @property
     def beat(self):
         return self.composition.beats[self.beat_index - 1]

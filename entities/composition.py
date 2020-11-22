@@ -7,15 +7,17 @@ from .beat import *
 class Composition(Singleton, Persistent):
 
     title = 'Composition title'
-    fields = ['title']
+    fields = [
+        'title'
+    ]
     tracks = list()
     beats = list()
 
     def setup(self):
         print(f'{self.__class__.__name__} title is {self.title.upper()}')
-        self.insert_track()
-        self.insert_beat()
-        self.tracks[0].insert_sound()
+#        self.insert_track()
+#        self.insert_beat()
+#        self.tracks[0].insert_sound()
 
     @property
     def number_of_tracks(self):

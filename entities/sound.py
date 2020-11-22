@@ -13,8 +13,6 @@ class Sound(Entity):
         'duration',
         'pitches'
     ]
-    def get_id(dct):
-        return random.getrandbits(128)
     @property
     def note(self):
         return self.pitch if self.pitch is not None else 'R'

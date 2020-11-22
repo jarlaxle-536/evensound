@@ -6,3 +6,4 @@ from .player import *
 from .state import *
 from .track import *
 from .piece import *
+from .track_selector import *

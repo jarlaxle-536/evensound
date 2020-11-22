@@ -2,7 +2,7 @@ from .loader import *
 
 from .pointer import *
 
-class Cursor(Singleton):
+class Cursor(Entity, CompositionConnected):
 
     quantization_level = DEFAULT_QUANTIZATION_PARAMETER
 
@@ -12,7 +12,7 @@ class Cursor(Singleton):
         super().setup()
 
     def __str__(self):
-        return f'<CURSOR beat#={self.beat_index}>'
+        return f'<CURSOR>'
 
 class CursorConnected(Root):
     @property

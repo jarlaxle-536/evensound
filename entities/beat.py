@@ -2,24 +2,21 @@ from .loader import *
 
 from .sound import *
 
-class Beat(Entity):
+class Beat(Entity, CompositionConnected):
     fields = [
-        'composition',
         'starting_index',
         'tempo'
     ]
     tempo = 120
     starting_index = None
+    quantization_parameter = MAX_QUANTIZATION_PARAMETER
     def setup(self):
         self.time_signature = TimeSignature()
-    @staticmethod
-    def get_id(dct):
-        return random.getrandbits(128)
     def __str__(self):
         return f'<BEAT t={self.tempo}, {self.time_signature}>'
     @property
     def quantum_number(self):
-        return int((self.time_signature.ratio) * MAX_QUANTIZATION_PARAMETER)
+        return int((self.time_signature.ratio) * self.quantization_parameter)
 
 class TimeSignature(Root):
     ts_numerator = 4

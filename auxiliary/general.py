@@ -65,6 +65,8 @@ class Entity(Root, metaclass=EntityMeta):
 def entity_field_hr(fieldname):
     return fieldname.replace('_', ' ').capitalize()
 
+class NotFoundError(Exception): pass
+
 class Singleton(Entity):
     key = 'object'
     @staticmethod
@@ -74,4 +76,6 @@ class Singleton(Entity):
     def find(cls_name, obj_id=None, modules=['__main__']):
         cls = Root.find_class(cls_name, modules)
         print(cls)
+        if not cls.key in cls.instances:
+            raise NotFoundError()
         return cls.instances[cls.key]
