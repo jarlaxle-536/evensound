@@ -58,6 +58,9 @@ class Entity(Root, metaclass=EntityMeta):
         cls.instances = cls.instances.copy()
         cls.instances[obj_id] = object.__new__(cls)
         return cls.instances[obj_id]
+    @staticmethod
+    def get_id(dct):
+        return random.getrandbits(128)
 
 def entity_field_hr(fieldname):
     return fieldname.replace('_', ' ').capitalize()

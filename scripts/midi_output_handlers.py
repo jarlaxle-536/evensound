@@ -12,7 +12,7 @@ def detect_midi_outputs():
         try:
             current_output = pygame.midi.Output(dev_num)
             test_midi_output(current_output)
-#            play_on_midi_output(current_output)
+            play_on_midi_output(current_output)
             MIDI_OUTPUTS[dev_num] = current_output
         except Exception as exc:
             print(exc)
