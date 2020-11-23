@@ -47,7 +47,6 @@ class EntityMeta(type):
         return cls.instances.get(obj_id)
 
 class Entity(Root, metaclass=EntityMeta):
-    instances = dict()
     def __new__(cls, *args, **kwargs):
         obj_id = cls.get_id(kwargs)
         if cls.instances.get(obj_id) is None:
@@ -79,7 +78,6 @@ class Singleton(Entity):
     @staticmethod
     def find(cls_name, obj_id=None, modules=['__main__']):
         cls = Root.find_class(cls_name, modules)
-        print(cls)
         if not cls.key in cls.instances:
             raise NotFoundError()
         return cls.instances[cls.key]
