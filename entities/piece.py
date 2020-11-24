@@ -2,15 +2,14 @@ from .loader import *
 
 from .composition import *
 
+@singleton_register('Composition')
 class Piece(Singleton):
 
     """Memory-only"""
 
-    composition = None
     start, end = 1, None
 
     fields = [
-        'composition',
         'start',
         'end'
     ]

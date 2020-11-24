@@ -2,7 +2,8 @@ from .loader import *
 
 from .time_signature import *
 
-class Beat(Entity, CompositionConnected):
+@singleton_register('Composition')
+class Beat(Entity):
 
     tempo = 120
     starting_index = None
@@ -27,9 +28,9 @@ class Beat(Entity, CompositionConnected):
 
     @property
     def position(self):
-        if self.composition is None:
+        if self.Composition is None:
             return None
-        self._position = self._position or self.composition.beats.index(self)
+        self._position = self._position or self.Composition.beats.index(self)
         return self._position
 
     def insert_sound(self, position=None, *args, **kwargs):

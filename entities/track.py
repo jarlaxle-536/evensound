@@ -3,8 +3,9 @@ from .loader import *
 from .instrument import *
 from .beat import *
 
-class Track(Entity, CompositionConnected):
-    
+@singleton_register('Composition')
+class Track(Entity):
+
     name = 'Track'
     fields = [
         'name',

@@ -39,4 +39,4 @@ class Sound(Entity):
                     return values[1][0] < values[1][1]
 
     def __str__(self):
-        return f'<SOUND t={self.track.name} b={self.beat.tempo} n={self.note} s={self.start_index} d={self.duration}>'
+        return f'<SOUND t={self.track} b={self.beat} n={self.note} s={self.start_index} d={self.duration}>'

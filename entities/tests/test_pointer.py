@@ -5,8 +5,9 @@ class PointerTestCase(unittest.TestCase):
         pass
     def test_default_end_pointer(self):
         self.composition = Composition()
+        self.composition.insert_beat()
         self.pointer = Pointer()
-        self.assertEqual(self.pointer.composition,
+        self.assertEqual(self.pointer.Composition,
             self.composition)
         self.assertEqual(self.pointer.beat_index,
             len(self.composition.beats))

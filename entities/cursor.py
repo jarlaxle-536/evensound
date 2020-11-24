@@ -2,7 +2,8 @@ from .loader import *
 
 from .pointer import *
 
-class Cursor(Entity, CompositionConnected):
+@singleton_register('Composition')
+class Cursor(Entity):
 
     quantization_level = DEFAULT_QUANTIZATION_PARAMETER
 
