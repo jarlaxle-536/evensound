@@ -25,6 +25,13 @@ class Beat(Entity, CompositionConnected):
             denominator=self.ts_denominator
         )
 
+    @property
+    def position(self):
+        if self.composition is None:
+            return None
+        self._position = self._position or self.composition.beats.index(self)
+        return self._position
+
     def insert_sound(self, position=None, *args, **kwargs):
         kwargs['beat'] = self
         sound_obj = Sound(**kwargs)

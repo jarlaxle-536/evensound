@@ -78,6 +78,6 @@ class Singleton(Entity):
     @staticmethod
     def find(cls_name, obj_id=None, modules=['__main__']):
         cls = Root.find_class(cls_name, modules)
-        if not cls.key in cls.instances:
-            raise NotFoundError()
-        return cls.instances[cls.key]
+#        if not cls.key in cls.instances:
+#            raise NotFoundError()
+        return cls.instances.get(cls.key)

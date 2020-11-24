@@ -16,6 +16,6 @@ class CompositionConnected(Root):
     def composition(self):
         if not getattr(self, '_composition'):
             self._composition = Singleton.find('Composition')
-            if self._composition is None:
-                raise CompositionNotFoundError()
+#            if self._composition is None:
+#                raise CompositionNotFoundError()
         return self._composition
