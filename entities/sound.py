@@ -28,7 +28,15 @@ class Sound(Entity):
 
     def __lt__(self, other):
         if isinstance(other, Sound):
-            return self.start_index < other.start_index
+            values = (
+                [self.beat.position, other.beat.position],
+                [self.start_index, other.start_index]
+            )
+            if not None in values[0]:
+                if len(set(values[0])) != 1:
+                    return values[0][0] < values[0][1]
+                else:
+                    return values[1][0] < values[1][1]
 
     def __str__(self):
         return f'<SOUND t={self.track.name} b={self.beat.tempo} n={self.note} s={self.start_index} d={self.duration}>'

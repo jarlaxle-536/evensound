@@ -81,3 +81,18 @@ class Singleton(Entity):
 #        if not cls.key in cls.instances:
 #            raise NotFoundError()
         return cls.instances.get(cls.key)
+
+# class decorator for singleton object finding
+def singleton_register(*singleton_classes):
+    def getter(cls_name):
+        def meth(instance):
+            if not getattr(instance, f'_{cls_name}'):
+                setattr(instance, f'_{cls_name}', Singleton.find(cls_name))
+            return getattr(instance, f'_{cls_name}')
+        return meth
+    def wrapper(cls, *args, **kwargs):
+        for singleton_cls_name in singleton_classes:
+            setattr(cls, singleton_cls_name,
+                property(getter(singleton_cls_name)))
+        return cls
+    return wrapper

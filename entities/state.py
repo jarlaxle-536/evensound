@@ -3,6 +3,7 @@ from .loader import *
 from .persistent import *
 from .composition import *
 from .cursor import *
+from .track_selector import *
 from .player import *
 
 class State(Singleton, Persistent):
@@ -10,6 +11,7 @@ class State(Singleton, Persistent):
     def setup(self):
         self.initialize_composition()
         self.cursor = Cursor()
+        self.track_selector = TrackSelector()
         self.player = Player()
         print(f'{self}, {self.composition}, {self.cursor}')
     def initialize_composition(self):

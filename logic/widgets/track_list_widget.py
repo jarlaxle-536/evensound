@@ -1,9 +1,14 @@
 from logic.loader import *
 
-class TrackListWidget(QListWidgetMixin, CursorConnected):
+class TrackListWidget(QListWidgetMixin):
     dependent_gui_classes = [
         'TrackInfoLabel'
     ]
+
+    def setup(self):
+        self.track_selector = self.application.state.track_selector
+        super().setup()
+
     def update(self):
         tracks = self.application.state.composition.tracks
         print('TRACKS:', self.application.state.composition.tracks)
@@ -11,5 +16,5 @@ class TrackListWidget(QListWidgetMixin, CursorConnected):
         super().update()
 
     def index_changed(self, index):
-        self.cursor.change_track_index(index + 1)
+        self.track_selector.change_index(index + 1)
         super().action()
