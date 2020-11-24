@@ -8,10 +8,14 @@ from .player import *
 class State(Singleton, Persistent):
     db_fields = ['composition', ]
     def setup(self):
-        self.composition = Composition()
+        self.initialize_composition()
         self.cursor = Cursor()
         self.player = Player()
         print(f'{self}, {self.composition}, {self.cursor}')
+    def initialize_composition(self):
+        self.composition = Composition()
+        self.composition.insert_track()
+        self.composition.insert_beat()
     def save(self, filepath):
 #        print(f'will save {self.__dict__} under {filepath}')
         with shelve.open(filepath, 'n', writeback=True) as file:
