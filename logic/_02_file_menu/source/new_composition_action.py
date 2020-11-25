@@ -2,6 +2,9 @@ from .loader import *
 from .new_composition_dialog import *
 
 class NewCompositionAction(QActionMixin):
-    text = 'New file'
+    text = 'New composition'
+    def setup(self):
+        self.dialog = NewCompositionDialog()
+        super().setup()
     def action(self):
-        dialog = NewCompositionDialog()
+        self.dialog.show()

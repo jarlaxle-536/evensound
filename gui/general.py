@@ -146,7 +146,6 @@ class QDialogMixin(GuiMixin):
         self.layout = QtWidgets.QVBoxLayout()
         self.update()
         self.setLayout(self.layout)
-        self.show()
 
 class FileDialogMixin(GuiMixin):
     constructor = QtWidgets.QFileDialog
