@@ -25,6 +25,41 @@ class GuiMixin(Singleton):
     def application(self):
         return self.get_application()
 
+class GuiConnectedField:
+
+    def __init__(self, value=None, *connected_gui_classes):
+        self.connected_gui_classes = connected_gui_classes
+        self.value = self.__class__.value = value
+
+    def __get__(self, target, owner):
+        print(owner)
+        if not target is None:
+            dct = target.__dict__
+            dct.setdefault(self.__name, self.value)
+            return dct.get(self.__name)
+        else:
+            return self.value
+
+    def __set__(self, target, value):
+        target.__dict__[self.__name] = value
+        for gui_obj in self.gui_objects:
+            try:
+                gui_obj.update()
+            except Exception as exc:
+                error_string = f'Failed to update {gui_obj.__class__.__name__} instance: {exc.__class__.__name__} occured.'
+                print(error_string)
+
+    @property
+    def gui_objects(self):
+        if not '_gui_objects' in self.__dict__:
+            self._gui_objects = [GuiMixin.find(cls_name)
+                for cls_name in self.connected_gui_classes]
+        return self._gui_objects
+
+    def __set_name__(self, owner, name):
+        self.__name = name
+
+
 class QApplicationMixin(GuiMixin):
     constructor = QtWidgets.QApplication
     constructor_args = (list(), )

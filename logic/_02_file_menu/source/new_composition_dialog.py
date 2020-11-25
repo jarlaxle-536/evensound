@@ -1,5 +1,7 @@
 from .loader import *
 
+from .composition import *
+
 class CompositionTitleRowLabel(FormRowLabelMixin):
     name = 'title'
 
@@ -14,9 +16,6 @@ class CompositionTitleRow(FormRowMixin):
 
 class RandomizeCompositionTitleButton(QPushButtonMixin):
     text = 'Randomize title'
-    dependent_gui_classes = {
-        'CompositionTitleRowInput',
-    }
     def setup(self):
         self.faker = faker.Faker()
         super().setup()
@@ -40,7 +39,7 @@ class NewCompositionOKButton(QPushButtonMixin):
         data = self.find('NewCompositionWidget').acquire()
         composition = Composition(**data)
         print(composition.__dict__)
-        self.application.state.set_composition(composition)
+        self.application.state.composition = composition
         dialog = self.find('NewCompositionDialog')
         dialog.close()
         super().action()
