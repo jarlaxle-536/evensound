@@ -1,7 +1,6 @@
-from entities import *
 from gui import *
 
-class Application(QApplicationMixin, StateMixin):
+class Application(QApplicationMixin):
     pass
 
 class MainWindow(QMainWindowMixin):
