@@ -4,7 +4,6 @@ class GuiMixin(Singleton):
     constructor = lambda *args, **kwargs: None
     constructor_args = tuple()
     constructor_kwargs = dict()
-    dependent_gui_classes = set()
     def __init__(self, **kwargs):
         self.adapt()
         Root.__init__(self, **kwargs)
@@ -13,11 +12,7 @@ class GuiMixin(Singleton):
             *self.constructor_args, **self.constructor_kwargs)
         Root.adapt(self, obj, name='gui')
     def action(self):
-        if getattr(self, 'dependent_gui_elements') is None:
-            self.dependent_gui_elements = {self.find(cls)
-                for cls in self.dependent_gui_classes}
-        for adapter in self.dependent_gui_elements:
-            adapter.update()
+        pass
     @staticmethod
     def get_application():
         return QtWidgets.QApplication.instance().adapter
@@ -46,7 +41,7 @@ class GuiConnectedField:
                 if not obj is None:
                     setattr(target, cls_name, obj)
             try:
-                obj.update()
+                getattr(target, cls_name).update()
             except Exception as exc:
                 pass
 

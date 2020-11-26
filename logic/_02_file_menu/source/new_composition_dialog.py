@@ -18,11 +18,8 @@ class CompositionTitleRow(FormRowMixin):
 @singleton_register('Composition')
 class RandomizeCompositionTitleButton(QPushButtonMixin):
     text = 'Randomize title'
-    def setup(self):
-        self.faker = faker.Faker()
-        super().setup()
     def action(self):
-        new_title = self.faker.sentence().replace('.', '')
+        new_title = FAKER.sentence().replace('.', '')
         self.Composition.title = new_title
 
 class NewCompositionCancelButton(QPushButtonMixin):

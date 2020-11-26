@@ -1,11 +1,23 @@
+from setuptools import find_packages
+import inspect
 import sys
 
-# import everything from final functionality package
-from ._02_file_menu import *
+from logic.auxiliary import *
 
 def start_app():
-    app = LOGIC_DICT['application_class']()
-    main_window = LOGIC_DICT['main_window_class']()
-    main_window.central_widget = LOGIC_DICT['main_widget_class']().gui
+    gui_dict = create_gui_dict()
+    app, main_window, main_widget = [gui_dict[k] for k in [
+        'Application',
+        'MainWindow',
+        'MainWidget'
+    ]]
+    main_window.central_widget = main_widget.gui
     main_window.setCentralWidget(main_window.central_widget)
     sys.exit(app.exec_())
+
+# import everything from final functionality package
+version_number = 2
+module_name = [m for m in find_packages()
+    if m.startswith(f'logic._{str(version_number).zfill(2)}') and
+    m.count('.') == 1][0].split('logic.')[-1]
+exec(f'from .{module_name} import *')

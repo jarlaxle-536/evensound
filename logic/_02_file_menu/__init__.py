@@ -3,4 +3,4 @@
     composition and File menu for MainWindow.
 """
 
-from .general import *
+from .source import *
