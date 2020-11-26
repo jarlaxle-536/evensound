@@ -12,6 +12,18 @@ class MainWindow(general_app.MainWindow):
         FileMenu,
     ]
 
+@singleton_register('Composition')
+class CompositionTitleLabel(QLabelMixin):
+    def update(self):
+        self.text = self.Composition.title
+        super().update()
+
+class MainWidget(general_app.MainWidget):
+    def setup(self):
+        self.contents['CompositionTitleLabel'] = CompositionTitleLabel
+        super().setup()
+
 LOGIC_DICT = general_app.LOGIC_DICT.copy()
 LOGIC_DICT['application_class'] = Application
 LOGIC_DICT['main_window_class'] = MainWindow
+LOGIC_DICT['main_widget_class'] = MainWidget

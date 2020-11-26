@@ -3,7 +3,10 @@ from .loader import *
 class Composition(Singleton):
     title = GuiConnectedField(
         'Composition title',
-        'CompositionTitleRowInput'
+        gui_classes = [
+            'CompositionTitleLabel',
+            'CompositionTitleRowInput',
+        ]
     )
     fields = [
         'title'

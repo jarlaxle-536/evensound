@@ -17,6 +17,8 @@ class UnitTest(unittest.TestCase):
         self.new_composition_action = [a for a in self.file_menu_actions
                     if a.text() == 'New composition'][0]
         self.new_composition_dialog = Singleton.find('NewCompositionDialog').gui
+        self.composition = Singleton.find('Composition')
+        self.composition.title = Root.find_class('Composition').title
     def test_file_menu_general(self):
         "Verify this menu title is File"
         self.assertEqual(self.file_menu.title(), 'File')
@@ -43,7 +45,16 @@ class UnitTest(unittest.TestCase):
             cancel_button.click,
             True
         )
+    def test_new_cmp_dialog_randomize_title_button(self):
+        self.new_composition_action.trigger()
+        title1 = self.composition.title
+        randomize_button = Singleton.find('RandomizeCompositionTitleButton').gui
+        randomize_button.click()
+        title2 = self.composition.title
+        self.assertNotEqual(title1, title2)
     def test_new_cmp_dialog_ok_button(self):
+        composition = Singleton.find('Composition')
+        print(composition.__dict__)
         self.new_composition_action.trigger()
         cancel_button = Singleton.find('NewCompositionOKButton').gui
         test_attribute_toggled(

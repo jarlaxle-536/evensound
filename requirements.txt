@@ -1,4 +1,4 @@
--e git+git@github.com:jarlaxle-536/evensound.git@c59861afe7b0be40e597b66c5dcbc8b6ecf44d7b#egg=evensound
+-e git+git@github.com:jarlaxle-536/evensound.git@9405a23646985320b15c9d0921e081547da9db5c#egg=evensound
 Faker==4.14.2
 mido==1.2.9
 Pillow==8.0.1

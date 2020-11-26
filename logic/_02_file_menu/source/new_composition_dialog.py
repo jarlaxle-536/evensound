@@ -5,26 +5,25 @@ from .composition import *
 class CompositionTitleRowLabel(FormRowLabelMixin):
     name = 'title'
 
+@singleton_register('Composition')
 class CompositionTitleRowInput(QLineEditMixin):
-    def setup(self):
-        self.entered_text = self.application.state.composition.title
-        super().setup()
+    def update(self):
+        self.entered_text = self.Composition.title
+        super().update()
 
 class CompositionTitleRow(FormRowMixin):
     label_class = CompositionTitleRowLabel
     input_class = CompositionTitleRowInput
 
+@singleton_register('Composition')
 class RandomizeCompositionTitleButton(QPushButtonMixin):
     text = 'Randomize title'
     def setup(self):
         self.faker = faker.Faker()
         super().setup()
     def action(self):
-        print('rctb action')
         new_title = self.faker.sentence().replace('.', '')
-        self.find('CompositionTitleRow').Input.entered_text = new_title
-        print(self.find('CompositionTitleRow').Input.entered_text)
-        super().action()
+        self.Composition.title = new_title
 
 class NewCompositionCancelButton(QPushButtonMixin):
     text = 'Cancel'
