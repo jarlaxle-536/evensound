@@ -13,22 +13,20 @@ class UnitTest(unittest.TestCase):
         self.file_menu = self.present_menus[0]
         self.file_menu_actions = [obj for obj in self.file_menu.children()
             if obj.__class__.__name__ == 'QAction']
-        self.present_menu_titles = ['New composition']
+        self.present_menu_titles = list(ACTION_TEXTS.values())
         self.new_composition_action = [a for a in self.file_menu_actions
-                    if a.text() == 'New composition'][0]
+                    if a.text() == ACTION_TEXTS['NewCompositionAction']][0]
         self.new_composition_dialog = Singleton.find('NewCompositionDialog').gui
         self.composition = Singleton.find('Composition')
-        self.composition.title = Root.find_class('Composition').title
+        self.composition.title = DEFAULT_COMPOSITION_TITLE
     def test_file_menu_general(self):
-        "Verify this menu title is File"
         self.assertEqual(self.file_menu.title(), 'File')
-        "Verify both new cmp and edit cmp actions are present in File menu"
         for t in self.present_menu_titles:
             self.assertIn(t, [a.text() for a in self.file_menu_actions])
     def test_new_cmp_action(self):
         "Check dialog properties"
         self.assertEqual(self.new_composition_dialog.windowTitle(),
-            'New composition')
+            DIALOGS_TITLES['NewCompositionDialog'])
         "Verify dialog visibility"
         test_attribute_toggled(
             self,
@@ -76,6 +74,12 @@ class UnitTest(unittest.TestCase):
         self.assertEqual(cmp.title, DEFAULT_COMPOSITION_TITLE)
 
 DEFAULT_COMPOSITION_TITLE = Composition.title
+DIALOGS_TITLES = {k: Root.find_class(k).title for k in [
+    'NewCompositionDialog'
+]}
+ACTION_TEXTS = {k: Root.find_class(k).text for k in [
+    'NewCompositionAction'
+]}
 
 if __name__ == '__main__':
     unittest.main()

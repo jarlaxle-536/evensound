@@ -175,7 +175,7 @@ class FileDialogMixin(GuiMixin):
     constructor = QtWidgets.QFileDialog
     title = 'File dialog'
     window_size = (320, 240)
-    fields = ['widget']
+    fields = ['widget_cls']
     def update(self):
         self.window_centered = tuple(map(
             lambda t: (t[0] - t[1]) // 2, zip(MAX_WINDOW_SIZE, self.window_size)
@@ -186,6 +186,8 @@ class FileDialogMixin(GuiMixin):
         self.options |= self.DontUseCustomDirectoryIcons
     def setup(self):
         self.update()
-        self.get_filepath()
+    @property
+    def widget(self):
+        return self.find(self.widget_cls)
     def get_filepath(self):
         raise TypeError('Should be specified in subclass')
