@@ -16,7 +16,7 @@ def start_app():
     sys.exit(app.exec_())
 
 # import everything from final functionality package
-version_number = 2
+version_number = 3
 module_name = [m for m in find_packages()
     if m.startswith(f'logic._{str(version_number).zfill(2)}') and
     m.count('.') == 1][0].split('logic.')[-1]

@@ -6,6 +6,3 @@ class MainWindow(logic._01_general_app.MainWindow):
     menus = [
         FileMenu,
     ]
-    def setup(self):
-        print('main window')
-        super().setup()

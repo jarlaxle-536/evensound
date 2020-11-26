@@ -1,4 +1,4 @@
 from .loader import *
 
 class SaveCompositionAction(QActionMixin):
-    text = 'Save composition'
+    text = 'Save as'

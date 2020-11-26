@@ -2,7 +2,7 @@ from .loader import *
 from .new_composition_dialog import *
 
 class NewCompositionAction(QActionMixin):
-    text = 'New composition'
+    text = 'New'
     def setup(self):
         self.dialog = NewCompositionDialog()
         super().setup()
