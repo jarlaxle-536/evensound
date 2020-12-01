@@ -1,1 +1,1 @@
-from .randomize_composition_title import *
+from .create_random_composition_title import *

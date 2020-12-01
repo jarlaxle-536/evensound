@@ -31,22 +31,7 @@ class Root(object):
 #        print(f'Testing if {kwargs} are suitable for {cls.__name__}')
         return True
 
-class EntityMeta(type):
-    """Metaclass to simplify connected gui updates"""
-    def __new__(cls, clsname, bases, clsdict):
-        clsdict = EntityMeta.set_updatable_fields(clsdict)
-        return super().__new__(cls, clsname, bases, clsdict)
-    def set_updatable_fields(clsdict):
-        field_dependencies = clsdict.get('field_dependencies', list())
-        for target, source in field_dependencies:
-            clsdict[target] = Updater(target=target, source=source)
-        return clsdict
-    @staticmethod
-    def find(cls_name, obj_id=None, modules=['__main__']):
-        cls = Root.find_class(cls_name, modules)
-        return cls.instances.get(obj_id)
-
-class Entity(Root, metaclass=EntityMeta):
+class Entity(Root):
     def __new__(cls, *args, **kwargs):
         obj_id = cls.get_id(kwargs)
         if cls.instances.get(obj_id) is None:

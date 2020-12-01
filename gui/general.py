@@ -20,6 +20,15 @@ class GuiMixin(Singleton):
     def application(self):
         return self.get_application()
 
+class GuiConnectMeta(type):
+    def __new__(meta, name, bases, cls_dict):
+        base_cls = bases[0]
+        gui_links = cls_dict.get('gui_links', dict())
+        for k, v in gui_links.items():
+            cls_dict[k] = GuiConnectedField(base_cls.__dict__[k], gui_classes=v)
+        obj = super().__new__(meta, name, bases, cls_dict)
+        return obj
+
 class GuiConnectedField:
 
     def __init__(self, value=None, gui_classes=list()):

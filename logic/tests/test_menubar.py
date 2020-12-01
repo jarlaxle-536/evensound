@@ -69,6 +69,9 @@ class MenubarTest(unittest.TestCase):
         cmp = Composition()
         self.assertEqual(cmp.title, DEFAULT_COMPOSITION_TITLE)
 
+PRESENT_MENUS = [
+    'File',
+]
 DEFAULT_COMPOSITION_TITLE = Composition.title
 DIALOGS_TITLES = {k: Root.find_class(k).title for k in [
     'NewCompositionDialog'

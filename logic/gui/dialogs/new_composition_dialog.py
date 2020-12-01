@@ -1,6 +1,7 @@
 from logic.loader import *
 
 from logic.entities.composition import *
+from logic.functions import *
 
 class CompositionTitleRowLabel(FormRowLabelMixin):
     name = 'title'
@@ -19,7 +20,7 @@ class CompositionTitleRow(FormRowMixin):
 class RandomizeCompositionTitleButton(QPushButtonMixin):
     text = 'Randomize title'
     def action(self):
-        new_title = FAKER.sentence().replace('.', '')
+        new_title = create_random_composition_title()
         self.Composition.title = new_title
 
 class NewCompositionCancelButton(QPushButtonMixin):
