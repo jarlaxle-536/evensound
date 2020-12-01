@@ -1,6 +1,6 @@
-from .loader import *
+from logic.loader import *
 
-from .open_composition_dialog import *
+from logic.gui.dialogs import *
 
 class SomeWidget(QWidgetMixin):
     pass

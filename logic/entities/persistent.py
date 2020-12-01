@@ -1,4 +1,4 @@
-from .loader import *
+from logic.loader import *
 
 class Persistent(Root):
     db_fields = list()

@@ -4,7 +4,7 @@ from PyQt5 import QtTest
 from logic.auxiliary import *
 from logic._03_save_load_exit import *
 
-class UnitTest(unittest.TestCase):
+class SaveLoadTest(unittest.TestCase):
     def setUp(self):
         init_test_app(self)
         self.menubar = self.MainWindow.gui.menuBar()

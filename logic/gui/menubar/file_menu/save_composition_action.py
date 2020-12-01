@@ -1,6 +1,6 @@
-from .loader import *
+from logic.loader import *
 
-from .save_composition_dialog import *
+from logic.gui.dialogs import *
 
 class SaveCompositionAction(QActionMixin):
     text = 'Save as'

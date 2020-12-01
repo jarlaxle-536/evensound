@@ -1,4 +1,4 @@
-from .loader import *
+from logic.loader import *
 
 from .composition_file_dialog import *
 
