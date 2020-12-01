@@ -1,3 +1,3 @@
-import random
+import faker
 
-from entities import *
+FAKER = faker.Faker('en_US')

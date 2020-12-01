@@ -1,4 +1,26 @@
-from .composition_dialog import *
+from logic.loader import *
+
+from logic.entities.composition import *
+
+class CompositionTitleRowLabel(FormRowLabelMixin):
+    name = 'title'
+
+@singleton_register('Composition')
+class CompositionTitleRowInput(QLineEditMixin):
+    def update(self):
+        self.entered_text = self.Composition.title
+        super().update()
+
+class CompositionTitleRow(FormRowMixin):
+    label_class = CompositionTitleRowLabel
+    input_class = CompositionTitleRowInput
+
+@singleton_register('Composition')
+class RandomizeCompositionTitleButton(QPushButtonMixin):
+    text = 'Randomize title'
+    def action(self):
+        new_title = FAKER.sentence().replace('.', '')
+        self.Composition.title = new_title
 
 class NewCompositionCancelButton(QPushButtonMixin):
     text = 'Cancel'
@@ -9,14 +31,11 @@ class NewCompositionCancelButton(QPushButtonMixin):
 
 class NewCompositionOKButton(QPushButtonMixin):
     text = 'OK'
-    dependent_gui_classes = {
-        'CompositionLabel',
-    }
     def action(self):
         data = self.find('NewCompositionWidget').acquire()
         composition = Composition(**data)
         print(composition.__dict__)
-        self.application.state.set_composition(composition)
+        self.application.state.composition = composition
         dialog = self.find('NewCompositionDialog')
         dialog.close()
         super().action()
@@ -36,8 +55,7 @@ class NewCompositionWidget(QWidgetMixin, FormDataMixin):
         NewCompositionControlPanel,
     ]}
     def refine_data(self, data):
-        res = dict()
-        res['title'] = data['title']
+        res = data.copy()
         return res
 
 class NewCompositionDialog(QDialogMixin):

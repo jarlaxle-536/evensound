@@ -7,3 +7,4 @@ class OpenCompositionDialog(CompositionFileDialog):
     def get_filepath(self):
         self.filepath = self.getOpenFileName(
             self.widget.gui, self.title, FILES_DIR, options=self.options)[0]
+        self.State.load(self.filepath)

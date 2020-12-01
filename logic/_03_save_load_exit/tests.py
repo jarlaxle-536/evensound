@@ -23,6 +23,11 @@ class UnitTest(unittest.TestCase):
         self.open_cmp_dialog = Singleton.find('OpenCompositionDialog').gui
         "Ignoring dialog title and visibility checks"
     def test_save_cmp_action(self):
+        state1 = self.Application.state
+        print(state1.__dict__)
+        print(state1.composition.__dict__)
+        previous_files = os.listdir(FILES_DIR)
+        print(previous_files)
         self.save_cmp_action = Singleton.find('SaveCompositionAction').gui
         self.save_cmp_dialog = Singleton.find('SaveCompositionDialog').gui
         "Ignoring dialog title and visibility checks"
