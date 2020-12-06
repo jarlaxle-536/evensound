@@ -1,2 +1,2 @@
 from .general import *
-from .functions import *
+from .gui_templates import *

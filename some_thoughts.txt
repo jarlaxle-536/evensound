@@ -1,1 +1,0 @@
-when new beat is created in no matter what track, all other tracks are updated.
