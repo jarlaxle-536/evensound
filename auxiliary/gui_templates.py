@@ -1,7 +1,15 @@
-from PyQt5 import QtWidgets, QtGui, QtCore
-
 from .gui_data import *
 from .general import *
+
+def create_gui_dict():
+    print(REGISTER.classes)
+    gui_dict = {cls_name: REGISTER.get(cls_name)[0].__call__() for cls_name in [
+        'Application',
+        'MainWindow',
+        'MainWidget'
+    ]}
+    print(gui_dict)
+    return gui_dict
 
 class GuiAdapter(Singleton):
     gui_constructor = lambda *args, **kwargs: None
@@ -24,8 +32,12 @@ class QMainWindow(GuiAdapter):
     gui_constructor = QtWidgets.QMainWindow
     title = 'Main window'
     window_size = MAX_WINDOW_SIZE
+    menus = list()
     def setup(self):
         super().setup()
+        for menu_name in self.menus:
+            menu_obj = REGISTER.get(menu_name)[0].get_or_create()
+            print(f'will add {menu_obj}')
         self.show()
     def update(self):
         super().update()

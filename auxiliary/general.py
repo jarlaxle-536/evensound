@@ -1,5 +1,6 @@
 import sys
 
+from .loader import *
 from .register import *
 
 class RootMeta(type):
