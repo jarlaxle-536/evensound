@@ -11,7 +11,6 @@ class PlayOrStopButton(QPushButton):
     def player(self):
         return self._Player.object()
     def get_text(self):
-        "'Play' if player thread is waiting, 'Stop' otherwise"
         return {True: 'Stop', False: 'Play'}.get(
             self.player.playing)
     def action(self):

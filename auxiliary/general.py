@@ -6,20 +6,24 @@ from .register import *
 class GeneralMeta(type):
     pass
 
+class Base(metaclass=GeneralMeta):
+    def __init__(self, **kwargs):
+        pass
+
 class RegistrableMeta(GeneralMeta):
     def __new__(meta, name, bases, cls_dict):
         obj = super().__new__(meta, name, bases, cls_dict)
         REGISTER.add(obj)
         return obj
 
-class Registrable(metaclass=RegistrableMeta):
+class Registrable(Base, metaclass=RegistrableMeta):
     def __init__(self, **kwargs):
         self.create_register_links()
         super().__init__(**kwargs)
     def create_register_links(self):
         self.__dict__.update({f'_{k}': v for k, v in REGISTER.classes.items()})
 
-class Adaptable:
+class Adaptable(Base):
     _adapted = set()
     def adapt(self, obj, name=None):
         name = name or obj.__class__.__name__
@@ -35,9 +39,11 @@ class Adaptable:
 
 class EntifiableMeta(RegistrableMeta):
     def __new__(meta, name, bases, cls_dict):
+        "Explicit inheritance of base attributes"
         for base in bases:
             for key, value in base.__dict__.items():
                 cls_dict.setdefault(key, value)
+        "Create field descriptors"
         for field in cls_dict.get('_fields', list()):
             cls_dict[field] = Field(value=cls_dict.get(field))
         obj = super().__new__(meta, name, bases, cls_dict)
@@ -49,7 +55,6 @@ class Field:
         print(self, value)
         self.value = value
     def __get__(self, target, owner):
-        print('get', self, target, owner)
         if target is None: return self
         dct = target.__dict__
         dct.setdefault(self.__name, self.value)
@@ -64,7 +69,7 @@ class Field:
         self._subscripted = self._subscripted.copy()
         self._subscripted.add(obj)
 
-class Entifiable(metaclass=EntifiableMeta):
+class Entifiable(Base, metaclass=EntifiableMeta):
     _instances = dict()
     _fields = list()
     def __new__(cls, **kwargs):
@@ -75,6 +80,7 @@ class Entifiable(metaclass=EntifiableMeta):
             return cls._instances[obj_id]
     def __init__(self, **kwargs):
         print(f'{self} INIT.')
+        self.__dict__.update(kwargs)
         super().__init__(**kwargs)
         self.setup()
     def setup(self):
@@ -90,7 +96,7 @@ class Entifiable(metaclass=EntifiableMeta):
         obj = cls._instances[obj_id]
         return obj, created
 
-class Subscriptable:
+class Subscriptable(Base):
     _subscriptions = set()
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
