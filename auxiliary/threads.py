@@ -20,6 +20,6 @@ class QtThreadAdapter(Singleton):
             self.start()
     def start(self):
         self.started = True
-        self.qthread.start()
+#        self.qthread.start()
     def action(self):
         pass

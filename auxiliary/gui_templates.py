@@ -1,41 +1,31 @@
-from .gui_data import *
 from .general import *
-
-def create_gui_dict():
-    print(REGISTER.classes)
-    gui_dict = {cls_name: REGISTER.get(cls_name)[0].__call__() for cls_name in [
-        'Application',
-        'MainWindow',
-        'MainWidget'
-    ]}
-    print(gui_dict)
-    return gui_dict
+from .aux_data import *
 
 class GuiAdapter(Singleton):
-    gui_constructor = lambda *args, **kwargs: None
-    gui_constructor_args = list()
-    gui_constructor_kwargs = dict()
+    _gui_constructor = lambda *args, **kwargs: None
+    _gui_constructor_args = list()
+    _gui_constructor_kwargs = dict()
     def setup(self):
         self.adapt(
-            self.gui_constructor(
-                *self.gui_constructor_args,
-                **self.gui_constructor_kwargs
+            self._gui_constructor(
+                *self._gui_constructor_args,
+                **self._gui_constructor_kwargs
             ), name='gui'
         )
         super().setup()
 
 class QApplication(GuiAdapter):
-    gui_constructor = QtWidgets.QApplication
-    gui_constructor_args = [list(), ]
+    _gui_constructor = QtWidgets.QApplication
+    _gui_constructor_args = [list(), ]
 
 class QMainWindow(GuiAdapter):
-    gui_constructor = QtWidgets.QMainWindow
+    _gui_constructor = QtWidgets.QMainWindow
+    _menus = list()
     title = 'Main window'
     window_size = MAX_WINDOW_SIZE
-    menus = list()
     def setup(self):
         super().setup()
-        for menu_name in self.menus:
+        for menu_name in self._menus:
             menu_obj = REGISTER.get(menu_name)[0].get_or_create()
             print(f'will add {menu_obj}')
         self.show()
@@ -48,44 +38,43 @@ class QMainWindow(GuiAdapter):
         self.setWindowTitle(self.title)
 
 class WidgetComposer(Root):
-    widgets = list()
-    contents = dict()
+    _widgets = list()
+    _contents = dict()
     def compose(self, target):
-        for cls_name in self.widgets:
+        print(self, self._widgets)
+        for cls_name in self._widgets:
             obj, created = REGISTER.get(cls_name)[0].get_or_create()
             target.addWidget(obj.gui)
-            self.contents = self.contents.copy()
-            self.contents[cls_name] = (len(self.contents), obj)
+            self._contents = self._contents.copy()
+            self._contents[cls_name] = (len(self._contents), obj)
 
 class QWidget(GuiAdapter, WidgetComposer):
-    gui_constructor = QtWidgets.QWidget
-    layout_type = QtWidgets.QVBoxLayout
+    _gui_constructor = QtWidgets.QWidget
+    _layout_type = QtWidgets.QVBoxLayout
     def setup(self):
         super().setup()
-        self.layout = self.layout_type.__call__()
-        WidgetComposer.compose(self, target=self.layout)
-        self.setLayout(self.layout)
+        self._layout = self._layout_type.__call__()
+        WidgetComposer.compose(self, target=self._layout)
+        self.setLayout(self._layout)
 
 class QStackedWidget(GuiAdapter, WidgetComposer):
-    gui_constructor = QtWidgets.QStackedWidget
-    widgets = list()
-    contents = dict()
+    _gui_constructor = QtWidgets.QStackedWidget
     def setup(self):
         super().setup()
         WidgetComposer.compose(self, target=self)
     def set_widget(self, cls_name):
-        new_index, obj = self.contents.get(cls_name, (0, ) * 2)
+        new_index, obj = self._contents.get(cls_name, (0, ) * 2)
         self.setCurrentIndex(new_index)
 
 class QLabel(GuiAdapter):
-    gui_constructor = QtWidgets.QLabel
+    _gui_constructor = QtWidgets.QLabel
     text = 'Label'
     def update(self):
         super().update()
         self.setText(self.text)
 
 class QPushButton(GuiAdapter):
-    gui_constructor = QtWidgets.QPushButton
+    _gui_constructor = QtWidgets.QPushButton
     text = 'Button'
     def update(self):
         super().update()
@@ -94,4 +83,4 @@ class QPushButton(GuiAdapter):
         super().setup()
         self.clicked.connect(self.action)
     def action(self):
-        print(f'{self.__class__.__name__} clicked.')
+        print(f'{self} clicked.')
