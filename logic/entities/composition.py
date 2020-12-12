@@ -7,3 +7,5 @@ class Composition(Singleton):
     title = 'Composition title'
     def setup(self):
         self.adapt(TrackContainer(), name='tracks')
+        self.tracks.insert(0, Track())
+        super().setup()
