@@ -2,7 +2,9 @@ from logic.loader import *
 
 class SomeLabel(QLabel):
     def update(self):
-        self.text = self._TrackSelectorWidget.object().selected.name
+        self.bar = self._State.object().cursor.current_bar
+        self.text = str(self._TrackSelectorWidget.object().selected) + ', '
+        self.text += str(self.bar)
         super().update()
 
 class TrackReprWidget(QWidget):

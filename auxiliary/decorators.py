@@ -3,5 +3,5 @@ def safe_call(func):
         try:
             return func(*args, **kwargs)
         except Exception as exc:
-            print(f'{exc} occured while calling {func} with {args}, {kwargs}.')
+            print(f'{func}({args}, {kwargs}): {exc}.')
     return wrapper

@@ -49,7 +49,7 @@ class EntifiableMeta(RegistrableMeta):
             cls_dict[field] = Field(value=cls_dict.get(field))
         """
             Assuming object which state is needed to make updates may not be
-            initialized, decorate it with @safe_call
+            initialized yet, decorate update with @safe_call
         """
         cls_dict['update'] = safe_call(cls_dict.get('update'))
         obj = super().__new__(meta, name, bases, cls_dict)
