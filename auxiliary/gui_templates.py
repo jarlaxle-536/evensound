@@ -76,13 +76,28 @@ class QMenu(GuiAdapter, WidgetComposer):
     _gui_constructor = QtWidgets.QMenu
     title = 'Menu'
     def setup(self):
-        self._gui_constructor_args = [self.parent, ]
         super().setup()
         WidgetComposer.compose(self,
             composing_func=lambda gui: self.addAction(gui))
     def update(self):
         self.setTitle(self.title)
         super().update()
+
+class QListWidget(GuiAdapter):
+    _gui_constructor = QtWidgets.QListWidget
+    _fields = ['selected']
+    selected = None
+    def update(self):
+        self.clear()
+        for entity in self._entities:
+            self.addItem(str(entity))
+    def setup(self):
+        super().setup()
+        self.selected = (lambda l: l[0] if l else None)(self._entities)
+        self.currentRowChanged.connect(self.on_change)
+    def on_change(self, index):
+        self.selected = self._entities[index]
+        print(self.selected)
 
 class QLabel(GuiAdapter):
     _gui_constructor = QtWidgets.QLabel

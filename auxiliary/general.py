@@ -114,7 +114,7 @@ class Entity(Root):
     def get_id(cls, kwargs):
         current_id = 0
         while True:
-            if current_id not in cls.instances:
+            if current_id not in cls._instances:
                 return current_id
             current_id += 1
 
