@@ -1,7 +1,8 @@
--e git+git@github.com:jarlaxle-536/evensound.git@9405a23646985320b15c9d0921e081547da9db5c#egg=evensound
+-e git+git@github.com:jarlaxle-536/evensound.git@f96a85ddf9529df8916366d74b34290a39c6c9bf#egg=evensound
 Faker==4.14.2
 mido==1.2.9
 Pillow==8.0.1
+pk==1.0
 pkg-resources==0.0.0
 py-midi==2.0.1
 pygame==2.0.0

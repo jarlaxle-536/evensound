@@ -8,9 +8,9 @@ from .track_selector_widget import *
 
 class MainWidget(QWidget):
     _widgets = [
-        'CompositionTitleLabel',
-        'TrackReprWidget',
-        'TrackSelectorWidget',
-        'ChangeTitleButton',
-        'PlayOrStopButton'
+#        'CompositionTitleLabel',
+#        'TrackReprWidget',
+#        'TrackSelectorWidget',
+#        'ChangeTitleButton',
+#        'PlayOrStopButton'
     ]
