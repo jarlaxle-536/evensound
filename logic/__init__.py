@@ -1,11 +1,10 @@
-#from logic.entities import *
-
+from logic.entities import *
 from logic.widgets import *
 
 class Application(QApplication):
     def setup(self):
-#        self._State()
-#        self._Player()
+        self.adapt(State(), name='state')
+#        self.adapt(Player(), name='player')
         super().setup()
 
 class MainWindow(QMainWindow):
@@ -13,9 +12,6 @@ class MainWindow(QMainWindow):
 #    _menus = [
 #        'FileMenu'
 #    ]
-
-class MainWidget(QWidget):
-    pass
 
 def create_gui_dict():
     gui_dict = {cls_name: REGISTER.get(cls_name)[0].__call__() for cls_name in [

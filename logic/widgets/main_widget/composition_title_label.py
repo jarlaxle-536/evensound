@@ -1,12 +1,13 @@
 from logic.loader import *
 
+from logic.entities import *
+
 class CompositionTitleLabel(QLabel):
-    _subscriptions = {
-        ('Composition', 'title'),
-    }
+    _dependent_on = ['Composition']
     def update(self):
-        self.text = self._Composition.object().title
+        self.text = Composition.object().title
         super().update()
     def setup(self):
         super().setup()
         self.setFont(QtGui.QFont('Times', 20))
+        self.setAlignment(QtCore.Qt.AlignCenter)

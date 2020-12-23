@@ -2,7 +2,7 @@ from logic.loader import *
 
 class Player(Singleton):
     def setup(self):
-        self.adapt(self._PlayerThreadAdapter(), name='thread_adapter')
+        self.adapt(PlayerThreadAdapter(), name='thread_adapter')
     @property
     def playing(self):
         return not self.thread_adapter.waiting

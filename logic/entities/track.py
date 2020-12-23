@@ -7,7 +7,7 @@ class Track(Entity):
     name = 'Track'
     def setup(self):
         super().setup()
-        self.adapt(self._Instrument(), name='instrument')
+        self.adapt(Instrument(), name='instrument')
     def __str__(self):
         return f'{self.name} [{self.instrument}]'
 
