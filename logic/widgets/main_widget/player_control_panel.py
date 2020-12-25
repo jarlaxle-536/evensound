@@ -1,56 +1,50 @@
 from logic.loader import *
 
-class PlayController(Singleton):
-    _fields = ['playing', 'speed']
-    playing = False
-    speed = 1
-    def toggle(self):
-        self.playing = not self.playing
+class PlayerController(Singleton):
+    _fields = ['speed']
+    speed = 0
 
 class PlayerControlPanel(QWidget):
     _layout_type = QtWidgets.QHBoxLayout
     _widgets = [
-        'PlayButton',
-        'Btn1',
-        'Btn2',
-        'Btn3',
-        'Btn4',
+        'StopButton',
+        'PlayAtHalfSpeedButton',
+        'PlayAtNormalSpeedButton',
+        'PlayAtSesquialteralSpeedButton',
+        'PlayAtDoubleSpeedButton',
     ]
+    def setup(self):
+        super().setup()
+        self.setFixedWidth(800)
 
 class PlaySpeedButton(QPushButton):
-    _dependent_on = ['PlayController', ]
+    _dependent_on = ['PlayerController', ]
     def update(self):
         self.setEnabled(self.is_enabled())
         self.text = self.get_text()
         super().update()
     def is_enabled(self):
-        return PlayController.object().speed != self.speed_level
+        return PlayerController.object().speed != self.speed_level
     def get_text(self):
-        return f'Speed: {self.speed_level} X'
+        return f'Play at speed: {self.speed_level} X'
     def action(self):
-        PlayController.object().speed = self.speed_level
+        PlayerController.object().speed = self.speed_level
 
-class PlayButton(QPushButton):
-    _dependent_on = ['PlayController', ]
-    def update(self):
-        self.text = self.get_text()
-        super().update()
+class StopButton(PlaySpeedButton):
+    speed_level = 0
     def get_text(self):
-        data = PlayController.object().data
-        return {True: 'Stop', False: 'Play'}.get(data['playing'])
-    def action(self):
-        PlayController.object().toggle()
+        return f'Stop'
 
-class Btn1(PlaySpeedButton):
+class PlayAtHalfSpeedButton(PlaySpeedButton):
     speed_level = 0.5
 
-class Btn2(PlaySpeedButton):
+class PlayAtNormalSpeedButton(PlaySpeedButton):
     speed_level = 1
 
-class Btn3(PlaySpeedButton):
+class PlayAtSesquialteralSpeedButton(PlaySpeedButton):
     speed_level = 1.5
 
-class Btn4(PlaySpeedButton):
+class PlayAtDoubleSpeedButton(PlaySpeedButton):
     speed_level = 2.0
 
-PlayController()
+PlayerController()

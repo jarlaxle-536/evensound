@@ -8,7 +8,7 @@ class QListWidget(GuiAdapter):
         self.clear()
         for item in self.items:
             self.addItem(self.get_repr(item))
-        self.setCurrentRow(self._index)
+#        self.setCurrentRow(self._index)
     def setup(self):
         super().setup()
         self.currentRowChanged.connect(self.on_change)

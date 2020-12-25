@@ -30,4 +30,5 @@ class Entity(Root, metaclass=EntityMeta):
     def data(self):
         res = {f: getattr(self, f) for f in self._fields}
         res['id'] = self.id
+        res['object'] = self
         return res

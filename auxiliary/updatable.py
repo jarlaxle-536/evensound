@@ -30,10 +30,13 @@ class Updatable(Base, metaclass=UpdatableMeta):
     _governs = list()
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.__dict__.update(kwargs)
         self.dependent_on = [self.find(cls_name)
             for cls_name in self._dependent_on]
         for cls in self.dependent_on:
+            print(self, 'dep on', cls)
             cls.subscribe(self)
+            print(cls, cls._governs)
         self.setup()
     def setup(self):
         self.update()

@@ -1,0 +1,17 @@
+from logic.loader import *
+
+from .container import *
+
+class Note(Entity):
+    _fields = ['pitch', 'quantized_duration', 'start_position']
+    pitch = -1
+    quantized_duration = 4
+    start_position = 0
+    def __str__(self):
+        return f'<Note p={self.pitch} d={self.quantized_duration} s={self.start_position}>'
+    @property
+    def ending_position(self):
+        return self.start_position + self.quantized_duration
+
+class NoteContainer(Container):
+    _classes = [Note, ]
