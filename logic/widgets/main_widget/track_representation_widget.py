@@ -21,15 +21,15 @@ class TrackCanvasLabel(QLabel):
     def create_image(self):
         track = self._TrackSelector.object().selected
         bar = self._Composition.object().bars[0]
-        width, height = 100, 25
+        width, height = 600, 200
         image = Image.new(mode='RGB', size=(width, height), color=(255, ) * 3)
         draw = ImageDraw.Draw(image)
         for note in bar.notes:
-            print(note)
+            print(note, note.notation_repr)
             print(bar.time_signature)
             middle = (note.start_position + note.ending_position) / 2
             image_pos = tuple(map(int, (middle / 16 * width, height / 2)))
             print(f'middle: {middle}')
             print(f'image_pos: {image_pos}')
-            draw.text(image_pos, str(note.pitch), (0,) * 3)
+            draw.text(image_pos, str(note.notation_repr), (0,) * 3)
         return image
