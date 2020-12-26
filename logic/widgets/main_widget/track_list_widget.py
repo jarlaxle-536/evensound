@@ -3,11 +3,6 @@ from logic.loader import *
 class TrackSelector(Singleton):
     _dependent_on = ['TrackListWidget']
     _fields = ['selected']
-    def update(self):
-        track_list_widget = TrackListWidget.object()
-        try:
-            self.selected = track_list_widget.entities[track_list_widget._index]
-        except: pass
 
 class TrackListWidget(QListWidget):
     _dependent_on = ['TrackContainer',]
@@ -16,6 +11,9 @@ class TrackListWidget(QListWidget):
         self.entities = self._Composition.object().tracks.contents
         self.items = [tr.data for tr in self.entities]
         super().update()
+    def on_change(self, index):
+        super().on_change(index)
+        TrackSelector.object().selected = self.entities[self._index]
     def get_repr(self, track_dict):
         return str(track_dict['object'])
     def setup(self):
