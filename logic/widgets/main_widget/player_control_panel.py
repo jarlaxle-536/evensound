@@ -11,7 +11,7 @@ class PlayerController(Singleton):
         self.adapt(Player(), name='player')
     def set_speed(self, speed_level):
         self.speed = speed_level
-        self.player.waiting = self.speed == 0
+        self.player.set_speed(speed_level)
 
 class PlayerControlPanel(QWidget):
     _layout_type = QtWidgets.QHBoxLayout
@@ -45,10 +45,15 @@ class PlaySpeedButton(QPushButton):
 
 class StopButton(PlaySpeedButton):
     speed_level = 0
+    def action(self):
+        super().action()
+        self._Player.object().time = self._Player.time
     def get_text(self):
-        return f'Stop'
+        return 'Stop'
 
 class PlayButton(PlaySpeedButton):
     speed_level = 1
+    def get_text(self):
+        return 'Play'
 
 PlayerController()

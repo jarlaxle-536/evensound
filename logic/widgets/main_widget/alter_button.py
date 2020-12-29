@@ -19,4 +19,4 @@ class AlterButton(QPushButton):
                 start_position=i*Note.quantized_duration
             )
             print(note)
-            current_bar.notes.insert(0, note)
+            current_bar.notes.insert(note)

@@ -15,17 +15,15 @@ class QComboBox(GuiAdapter):
         }
         for opt_str, obj in self.options:
             self.addItem(opt_str)
-        self.on_change(0)
+        self.selected = self.options[0][-1]
         self.currentIndexChanged.connect(self.on_change)
     def on_change(self, index):
         print(f'{self} on_change with {index}')
         self.selected = self.indexed_options[index]['object']
         print(f'{self} selected: {self.selected}')
         print(f'{self} adapter: {self.adapter}')
-        try:
+        if getattr(self, 'adapter'):
             self.adapter.set_selected(self.selected)
-        except Exception:
-            pass
 
 class QComboBoxWithLabel(QWidget):
     _layout_type = QtWidgets.QHBoxLayout

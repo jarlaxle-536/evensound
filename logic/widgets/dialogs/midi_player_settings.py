@@ -1,5 +1,7 @@
 from logic.loader import *
 
+from logic.functions import *
+
 class MIDIPlayerSettingsDialog(QDialog):
     title = 'MIDI player settings'
     _widgets = [
@@ -22,3 +24,4 @@ class TestMIDIOutputButton(QPushButton):
     def action(self):
         current_midi_output = self._Player.object().midi_output
         print(f'Will play smth on {self._Player.object().midi_output}')
+        play_on_midi_output(current_midi_output)

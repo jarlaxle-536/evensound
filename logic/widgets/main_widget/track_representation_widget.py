@@ -25,11 +25,11 @@ class TrackCanvasLabel(QLabel):
         image = Image.new(mode='RGB', size=(width, height), color=(255, ) * 3)
         draw = ImageDraw.Draw(image)
         for note in bar.notes:
-            print(note, note.notation_repr)
-            print(bar.time_signature)
+#            print(note, note.notation_repr)
+#            print(bar.time_signature)
             middle = (note.start_position + note.ending_position) / 2
             image_pos = tuple(map(int, (middle / 16 * width, height / 2)))
-            print(f'middle: {middle}')
-            print(f'image_pos: {image_pos}')
+#            print(f'middle: {middle}')
+#            print(f'image_pos: {image_pos}')
             draw.text(image_pos, str(note.notation_repr), (0,) * 3)
         return image
