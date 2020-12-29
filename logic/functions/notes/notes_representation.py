@@ -10,5 +10,5 @@ def get_notation_for_pitch(pitch_code):
 with open(os.path.join(DATA_DIR, 'notes.json')) as file:
     NOTES_ARRAY = json.load(file)
 
-for p in [48, 64]:
-    print(p, get_notation_for_pitch(p))
+#for p in [48, 64]:
+#    print(p, get_notation_for_pitch(p))

@@ -3,21 +3,32 @@ from logic.loader import *
 from logic.entities import *
 
 class PlayerController(Singleton):
+    _dependent_on = ['Player']
     _fields = ['speed']
     speed = 0
     def setup(self):
         super().setup()
         self.adapt(Player(), name='player')
+    def set_speed(self, speed_level):
+        self.speed = speed_level
+        self.player.waiting = self.speed == 0
 
 class PlayerControlPanel(QWidget):
     _layout_type = QtWidgets.QHBoxLayout
     _widgets = [
+        'PlayerInfoLabel',
         'StopButton',
         'PlayButton',
     ]
     def setup(self):
         super().setup()
         self.setFixedWidth(800)
+
+class PlayerInfoLabel(QLabel):
+    _dependent_on = ['PlayerController', ]
+    def update(self):
+        self.text = str(Player.object())
+        super().update()
 
 class PlaySpeedButton(QPushButton):
     _dependent_on = ['PlayerController', ]
@@ -30,23 +41,14 @@ class PlaySpeedButton(QPushButton):
     def get_text(self):
         return f'Play at speed: {self.speed_level} X'
     def action(self):
-        PlayerController.object().speed = self.speed_level
+        PlayerController.object().set_speed(self.speed_level)
 
 class StopButton(PlaySpeedButton):
     speed_level = 0
     def get_text(self):
         return f'Stop'
 
-class PlayAtHalfSpeedButton(PlaySpeedButton):
-    speed_level = 0.5
-
 class PlayButton(PlaySpeedButton):
     speed_level = 1
-
-class PlayAtSesquialteralSpeedButton(PlaySpeedButton):
-    speed_level = 1.5
-
-class PlayAtDoubleSpeedButton(PlaySpeedButton):
-    speed_level = 2.0
 
 PlayerController()

@@ -1,2 +1,3 @@
-from .convert_pil_image_to_pixmap import *
-from .notes_representation import *
+from .images import *
+from .notes import *
+from .midi import *

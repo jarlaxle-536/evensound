@@ -1,10 +1,12 @@
 from logic.loader import *
 
 class Player(Singleton):
-    _fields = ['waiting']
+    _fields = ['waiting', 'output']
     def setup(self):
         self.adapt(PlayerThreadAdapter(), name='thread_adapter')
         self.waiting = self.thread_adapter.waiting
+    def __str__(self):
+        return f'<PLAYER output={self.output} waiting={self.waiting}>'
 
 class PlayerThreadAdapter(QtThreadAdapter):
     time = 0
