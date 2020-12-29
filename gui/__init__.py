@@ -9,3 +9,4 @@ from .list_widget import *
 from .action import *
 from .menu import *
 from .dialog import *
+from .combo_box import *

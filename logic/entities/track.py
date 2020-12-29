@@ -12,4 +12,4 @@ class Track(Entity):
         return f'{self.name} [{self.instrument}]'
 
 class TrackContainer(Container):
-    _classes = [Track, ]
+    _cls = Track

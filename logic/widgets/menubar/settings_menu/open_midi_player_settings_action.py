@@ -6,6 +6,6 @@ class OpenMidiPlayerSettingsAction(QAction):
     text = 'MIDI player'
     def setup(self):
         super().setup()
-        self.adapt(MidiPlayerSettingsDialog(), name='dialog')
+        self.adapt(MIDIPlayerSettingsDialog(), name='dialog')
     def action(self):
         self.dialog.show()

@@ -14,4 +14,4 @@ class Bar(Entity):
         return f'<Bar t={self.tempo} [{self.time_signature}]>'
 
 class BarContainer(Container):
-    _classes = [Bar, ]
+    _cls = Bar

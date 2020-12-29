@@ -19,4 +19,4 @@ class Note(Entity):
         return f'{dct["notes"][0]}{dct["octave"]}'
 
 class NoteContainer(Container):
-    _classes = [Note, ]
+    _cls = Note
