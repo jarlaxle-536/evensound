@@ -1,17 +1,19 @@
 from logic.loader import *
 
+from logic.entities import *
+
 class PlayerController(Singleton):
     _fields = ['speed']
     speed = 0
+    def setup(self):
+        super().setup()
+        self.adapt(Player(), name='player')
 
 class PlayerControlPanel(QWidget):
     _layout_type = QtWidgets.QHBoxLayout
     _widgets = [
         'StopButton',
-        'PlayAtHalfSpeedButton',
-        'PlayAtNormalSpeedButton',
-        'PlayAtSesquialteralSpeedButton',
-        'PlayAtDoubleSpeedButton',
+        'PlayButton',
     ]
     def setup(self):
         super().setup()
@@ -38,7 +40,7 @@ class StopButton(PlaySpeedButton):
 class PlayAtHalfSpeedButton(PlaySpeedButton):
     speed_level = 0.5
 
-class PlayAtNormalSpeedButton(PlaySpeedButton):
+class PlayButton(PlaySpeedButton):
     speed_level = 1
 
 class PlayAtSesquialteralSpeedButton(PlaySpeedButton):

@@ -13,7 +13,7 @@ class QMainWindow(GuiAdapter):
         self.statusBar()
         self.menubar = self.menuBar()
         for menu_name in self._menus:
-            menu_obj, created = REGISTER.get(menu_name)[0].get_or_create()
+            menu_obj, created = REGISTER.find(menu_name).get_or_create()
             self.menubar.addMenu(menu_obj.gui)
     def update(self):
         super().update()

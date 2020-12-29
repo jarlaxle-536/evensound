@@ -1,16 +1,14 @@
 from logic.loader import *
 
 class Player(Singleton):
+    _fields = ['waiting']
     def setup(self):
         self.adapt(PlayerThreadAdapter(), name='thread_adapter')
-    @property
-    def playing(self):
-        return not self.thread_adapter.waiting
+        self.waiting = self.thread_adapter.waiting
 
 class PlayerThreadAdapter(QtThreadAdapter):
-    _fields = ['time', 'waiting']
     time = 0
-    period = 0.05
+    period = 1
     def action(self):
         super().action()
         self.time += self.period

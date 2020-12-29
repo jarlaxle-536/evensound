@@ -1,2 +1,2 @@
 from .main_widget import *
-#from .menus import *
+from .menubar import *

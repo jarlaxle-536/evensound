@@ -5,6 +5,7 @@ from auxiliary import *
 class QtThread(QtCore.QThread):
     def run(self):
         while True:
+            print(f'{self} cycle')
             if not self.adapter.waiting:
                 self.adapter.action()
             time.sleep(self.adapter.period)
@@ -16,7 +17,6 @@ class QtThreadAdapter(Singleton):
     def setup(self):
         super().setup()
         self.adapt(QtThread(), name='qthread')
-        self.qthread.start()
     def toggle_activity(self):
         self.waiting = not self.waiting
         if not self.waiting and not self.started:
@@ -25,4 +25,4 @@ class QtThreadAdapter(Singleton):
         self.started = True
         self.qthread.start()
     def action(self):
-        pass
+        print(f'{self} action')

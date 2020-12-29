@@ -9,9 +9,11 @@ class Application(QApplication):
 
 class MainWindow(QMainWindow):
     title = 'Evensound'
-#    _menus = [
-#        'FileMenu'
-#    ]
+    _menus = [
+        'FileMenu',
+        'TrackMenu',
+        'SettingsMenu'
+    ]
 
 def create_gui_dict():
     gui_dict = {cls_name: REGISTER.get(cls_name)[0].__call__() for cls_name in [
