@@ -13,11 +13,19 @@ class TrackCanvasLabel(QLabel):
         super().setup()
         self.setAlignment(QtCore.Qt.AlignCenter)
     def update(self):
-        print(f'{self}:update')
+#        print(f'{self}:update')
         pixmap = convert_pil_image_to_pixmap(self.create_image())
         pixmap = pixmap.scaled(800, 600, QtCore.Qt.KeepAspectRatio)
         self.setAlignment(QtCore.Qt.AlignCenter)
         self.setPixmap(pixmap)
+    def update(self):
+        lines = list()
+        current_track = self._TrackSelector.object().selected
+        lines += [f'TRACK: {current_track}']
+        current_bar = self._Player.object().cursor.current_bar
+        lines += [f'BAR: {current_bar}']
+        self.text = '\n'.join(lines)
+        super().update()
     def create_image(self):
         track = self._TrackSelector.object().selected
         bar = self._Composition.object().bars[0]

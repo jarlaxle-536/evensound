@@ -10,7 +10,7 @@ class AlterButton(QPushButton):
         current_bar = list(self._Bar._instances.values())[0]
         current_bar.notes = NoteContainer()
         quant_dur = Note.quantized_duration / 16
-        ratio = current_bar.time_signature.ratio()
+        ratio = current_bar.time_signature.ratio
         number_of_notes = int(ratio/quant_dur)
         print(f'number of notes: {number_of_notes}')
         for i in range(number_of_notes):

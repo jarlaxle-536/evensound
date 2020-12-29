@@ -6,12 +6,10 @@ class PlayerController(Singleton):
     _dependent_on = ['Player']
     _fields = ['speed']
     speed = 0
-    def setup(self):
-        super().setup()
-        self.adapt(Player(), name='player')
     def set_speed(self, speed_level):
+        print(f'{self}:set_speed {speed_level}')
         self.speed = speed_level
-        self.player.set_speed(speed_level)
+        self._Player.object().set_speed(speed_level)
 
 class PlayerControlPanel(QWidget):
     _layout_type = QtWidgets.QHBoxLayout
@@ -37,11 +35,11 @@ class PlaySpeedButton(QPushButton):
         self.text = self.get_text()
         super().update()
     def is_enabled(self):
-        return PlayerController.object().speed != self.speed_level
+        return self._PlayerController.object().speed != self.speed_level
     def get_text(self):
         return f'Play at speed: {self.speed_level} X'
     def action(self):
-        PlayerController.object().set_speed(self.speed_level)
+        self._PlayerController.object().set_speed(self.speed_level)
 
 class StopButton(PlaySpeedButton):
     speed_level = 0

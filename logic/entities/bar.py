@@ -12,7 +12,7 @@ class Bar(Entity):
         self.adapt(NoteContainer(), name='notes')
     def get_commands_list(self):
         res = list()
-        time_factor = 4 * self.time_signature.ratio() / 16
+        time_factor = self.duration / 16
         for note in self.notes:
             heapq.heappush(res, (
                 time_factor * note.start_position,
@@ -25,6 +25,9 @@ class Bar(Entity):
                 )
             )
         return res
+    @property
+    def duration(self):
+        return 4 * self.time_signature.ratio
     def __str__(self):
         return f'<Bar t={self.tempo} [{self.time_signature}]>'
 

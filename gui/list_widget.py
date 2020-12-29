@@ -12,9 +12,10 @@ class QListWidget(GuiAdapter):
     def setup(self):
         super().setup()
         self.currentRowChanged.connect(self.on_change)
+        self._index = 0
     def on_change(self, index):
-        print(f'{self}:on_change {index}')
+#        print(f'{self}:on_change {index}')
         self._index = index
-        print(f'{self} new index: {self._index}')
+#        print(f'{self} new index: {self._index}')
     def get_repr(self, dct):
         return str(dct)

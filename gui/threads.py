@@ -5,6 +5,7 @@ from auxiliary import *
 class QtThread(QtCore.QThread):
     def run(self):
         while True:
+            print(f'{self.adapter} cycle')
             if not self.adapter.waiting:
                 self.adapter.action()
             time.sleep(self.adapter.period)
